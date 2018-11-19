@@ -1,8 +1,7 @@
 package com.egtinteractive.map;
 
 import java.util.Iterator;
-
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import java.util.Objects;
 
 public class GenericMap<K, V> implements Map<K, V> {
 
@@ -185,13 +184,20 @@ public class GenericMap<K, V> implements Map<K, V> {
 
     @Override
     public int hashCode() {
-	HashCodeBuilder hcb = new HashCodeBuilder();
 	Iterator<MapEntry<K, V>> it = iterator();
+	int result = 17;
 
 	while (it.hasNext()) {
-	    hcb.append(it.next());
+	    MapEntry<K, V> mapEntry = it.next();
+	    K nextKey = mapEntry.getKey();
+	    V nextValue = mapEntry.getValue();
+
+	    int hashKey = mapEntry.getKey() == null? 0 : Objects.hashCode(nextKey);  
+	    int hashValue = mapEntry.getValue() == null? 0 : Objects.hashCode(nextValue); 
+
+	    result = 31 * result + (hashKey + hashValue);
 	}
-	return hcb.toHashCode();
+	return result;
     }
 
     // Helpers
