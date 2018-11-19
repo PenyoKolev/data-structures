@@ -3,8 +3,6 @@ package com.egtinteractive.list;
 import java.util.Iterator;
 import java.util.Objects;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 public class GenericLinkedList<T> implements GenericList<T> {
 
     private Node<T> head;
@@ -14,7 +12,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public T get(int index) { 
+    public T get(int index) {
 	if (isNotValid(index)) {
 	    throw new IndexOutOfBoundsException();
 	}
@@ -23,7 +21,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public void add(T data) { 
+    public void add(T data) {
 	if (head == null) {
 	    head = new Node<T>(data);
 	} else {
@@ -37,7 +35,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public void add(int index, T element) { 
+    public void add(int index, T element) {
 	if (isNotValid(index)) {
 	    throw new IndexOutOfBoundsException();
 	}
@@ -47,7 +45,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public void set(int index, T element) { 
+    public void set(int index, T element) {
 	if (isNotValid(index)) {
 	    throw new IndexOutOfBoundsException();
 	}
@@ -56,7 +54,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public boolean remove(T element) { 
+    public boolean remove(T element) {
 	int index = indexOf(element);
 	if (head == null || index == -1) {
 	    return false;
@@ -65,7 +63,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public boolean remove(int index) { 
+    public boolean remove(int index) {
 	if (isNotValid(index)) {
 	    throw new IndexOutOfBoundsException();
 	}
@@ -81,12 +79,12 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public boolean contains(T o) { 
+    public boolean contains(T o) {
 	return indexOf(o) != -1;
     }
 
     @Override
-    public int indexOf(T element) { 
+    public int indexOf(T element) {
 	if (head != null) {
 	    Node<T> current = head;
 	    for (int index = 0; index < size; index++) {
@@ -100,22 +98,22 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public int size() { 
+    public int size() {
 	return size;
     }
 
     @Override
-    public void clear() { 
+    public void clear() {
 	head = null;
     }
 
     @Override
-    public Iterator<T> iterator() { 
+    public Iterator<T> iterator() {
 	return new MyIterator();
     }
 
     @Override
-    public boolean equals(Object otherObject) { 
+    public boolean equals(Object otherObject) {
 	if (this == otherObject) {
 	    return true;
 	}
@@ -144,30 +142,40 @@ public class GenericLinkedList<T> implements GenericList<T> {
     public int hashCode() {
 	Iterator<T> it = iterator();
 	int result = 17;
-	
-	while(it.hasNext()) {
+
+	while (it.hasNext()) {
 	    result = 31 * result + Objects.hashCode(it.next());
 	}
 	return result;
     }
 
     // Helpers
-    private class MyIterator implements Iterator<T> { 
+    private class MyIterator implements Iterator<T> {
 	Node<T> current = head;
 
 	@Override
 	public boolean hasNext() {
 	    return current != null;
 	}
-	
+
 	@Override
 	public T next() {
 	    T element = current.data;
 	    current = current.next;
 	    return element;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void remove() {
+	    if (head == null) {
+		throw new IllegalStateException("No such node");
+	    }
+	    GenericLinkedList.this.remove((T) current);
+	    size--;
+	}
     }
-    
+
     private Node<T> nodeAt(int index) {
 	if (isNotValid(index)) {
 	    throw new IndexOutOfBoundsException();

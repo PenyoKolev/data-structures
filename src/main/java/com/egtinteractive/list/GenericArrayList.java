@@ -168,6 +168,14 @@ public class GenericArrayList<T> implements GenericList<T> {
 		throw new NoSuchElementException();
 	    }
 	}
+	
+	@Override
+	public void remove() {
+	    if (isNotValid(current)) {
+		GenericArrayList.this.remove(current);
+		current--;
+	    }
+	}
     }
 
     @SuppressWarnings("unchecked")

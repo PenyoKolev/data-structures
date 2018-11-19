@@ -148,6 +148,13 @@ public class GenericMap<K, V> implements Map<K, V> {
 		}
 		return null;
 	    }
+	    
+	    @Override
+	    public void remove() {
+		if (current != null) {
+		    GenericMap.this.remove(current.getKey());
+		}
+	    }
 	};
 	return iterator;
     }
