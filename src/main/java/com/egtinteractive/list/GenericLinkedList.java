@@ -1,6 +1,7 @@
 package com.egtinteractive.list;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -140,14 +141,14 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public int hashCode() { 
-	HashCodeBuilder hcb = new HashCodeBuilder();
+    public int hashCode() {
 	Iterator<T> it = iterator();
-
-	while (it.hasNext()) {
-	    hcb.append(it.next());
+	int result = 17;
+	
+	while(it.hasNext()) {
+	    result = 31 * result + Objects.hashCode(it.next());
 	}
-	return hcb.toHashCode();
+	return result;
     }
 
     // Helpers

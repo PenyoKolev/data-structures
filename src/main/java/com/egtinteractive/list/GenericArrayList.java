@@ -2,9 +2,8 @@ package com.egtinteractive.list;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.IntStream;
-
-import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class GenericArrayList<T> implements GenericList<T> {
 
@@ -143,13 +142,13 @@ public class GenericArrayList<T> implements GenericList<T> {
 
     @Override
     public int hashCode() {
-	HashCodeBuilder hcb = new HashCodeBuilder();
 	Iterator<T> it = iterator();
-
-	while (it.hasNext()) {
-	    hcb.append(it.next());
+	int result = 17;
+	
+	while(it.hasNext()) {
+	    result = 31 * result + Objects.hashCode(it.next());
 	}
-	return hcb.toHashCode();
+	return result;
     }
 
     // Helpers
