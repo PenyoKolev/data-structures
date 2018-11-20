@@ -15,7 +15,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-	int index = hash(key);
+	int index = hash(key, entries.length);
 	if (entries[index] == null) {
 	    return null;
 	} else {
@@ -35,7 +35,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 	if (size >= entries.length) {
 	    resize();
 	}
-	int index = hash(key);
+	int index = hash(key, entries.length);
 	MapEntry<K, V> newEntry = new MapEntry<K, V>(key, value, null);
 	if (entries[index] == null) {
 	    entries[index] = newEntry;
@@ -69,7 +69,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 	if (key == null) {
 	    return null;
 	}
-	int index = hash(key);
+	int index = hash(key, entries.length);
 	MapEntry<K, V> temp = entries[index];
 	if (temp != null && temp.getKey().equals(key)) {
 	    entries[index] = null;
@@ -81,7 +81,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean containsKey(K key) {
-	int index = hash(key);
+	int index = hash(key, entries.length);
 	MapEntry<K, V> temp = entries[index];
 	while (temp != null) {
 	    if (temp.getKey().equals(key)) {
@@ -148,7 +148,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 		}
 		return null;
 	    }
-	    
+
 	    @Override
 	    public void remove() {
 		if (current != null) {
@@ -199,8 +199,8 @@ public class GenericMap<K, V> implements Map<K, V> {
 	    K nextKey = mapEntry.getKey();
 	    V nextValue = mapEntry.getValue();
 
-	    int hashKey = mapEntry.getKey() == null? 0 : Objects.hashCode(nextKey);  
-	    int hashValue = mapEntry.getValue() == null? 0 : Objects.hashCode(nextValue); 
+	    int hashKey = mapEntry.getKey() == null ? 0 : Objects.hashCode(nextKey);
+	    int hashValue = mapEntry.getValue() == null ? 0 : Objects.hashCode(nextValue);
 
 	    result = 31 * result + (hashKey + hashValue);
 	}
@@ -211,13 +211,21 @@ public class GenericMap<K, V> implements Map<K, V> {
 
     @SuppressWarnings("unchecked")
     private void resize() {
-	MapEntry<K, V>[] temp = new MapEntry[entries.length * 2];
-	System.arraycopy(entries, 0, temp, 0, entries.length);
-	entries = temp;
+	MapEntry<K, V>[] temp = entries;
+	entries = new MapEntry[size * 2];
+
+	for (MapEntry<K, V> entry : temp) {
+	    while (entry != null) {
+		put(entry.getKey(), entry.getValue());
+		entry = entry.getNext();
+		size--;
+	    }
+	}
+	
     }
 
-    private int hash(K key) {
-	return Math.abs(key.hashCode()) % entries.length;
+    private int hash(K key, int size) {
+	return Math.abs(key.hashCode()) % size;
     }
 
 }

@@ -168,11 +168,10 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void remove() {
-	    if (head == null) {
+	    if (head == null || current == null) {
 		throw new IllegalStateException("No such node");
 	    }
 	    GenericLinkedList.this.remove((T) current);
-	    size--;
 	}
     }
 
