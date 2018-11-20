@@ -1,5 +1,7 @@
 package com.egtinteractive.binarytree;
 
+import java.util.Iterator;
+
 public interface Tree<T> extends Iterable<T> {
     void add(T element); // adds the specified element to the tree;
     boolean remove(T element); // removes the specified element from this tree if it is present;
@@ -10,7 +12,7 @@ public interface Tree<T> extends Iterable<T> {
     boolean contains(T o); // returns true if this tree contains the specified element;
     int size(); // returns the number of the elements in this tree;
     void clear(); // removes all of the elements from this tree;
-    java.util.Iterator<T> iterator(); // returns an iterator over the elements;
+    Iterator<T> iterator(); // returns an iterator over the elements;
     boolean equals(Object otherObject); // indicates whether some other object is "equal to" this one;
     int hashCode(); // returns a hash code value for the object;
 }
