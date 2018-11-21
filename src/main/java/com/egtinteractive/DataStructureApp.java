@@ -8,6 +8,8 @@ public class DataStructureApp {
     public static void main(String[] args) {
 
 	Tree<Integer> tree = new BinaryTree<>();
+	Tree<Integer> tree1 = new BinaryTree<>();
+
 	tree.add(6);
 	tree.add(4);
 	tree.add(8);
@@ -15,14 +17,23 @@ public class DataStructureApp {
 	tree.add(5);
 	tree.add(7);
 	tree.add(9);
-	
 	tree.remove(4);
+	
+	tree1.add(6);
+	tree1.add(4);
+	tree1.add(8);
+	tree1.add(3);
+	tree1.add(5);
+	tree1.add(7);
+	tree1.add(9);
+	tree1.remove(4);
 
 	
-	System.out.println();
-	System.out.println(tree.size());
-	System.out.println();
 	
-	System.out.println(tree.contains(9));
+	
+	System.out.println(tree.hashCode());
+	System.out.println(tree1.hashCode());
+
+
     }
 }

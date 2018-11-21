@@ -1,6 +1,8 @@
 package com.egtinteractive.binarytree;
 
+import java.util.ArrayDeque;
 import java.util.Iterator;
+import java.util.Queue;
 
 public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
@@ -108,8 +110,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	if (current.getValue() == value) {
 	    return true;
 	}
-	return value.compareTo(current.getValue()) < 0 
-		? containsNode(current.getLeft(), value)
+	return value.compareTo(current.getValue()) < 0 ? containsNode(current.getLeft(), value)
 		: containsNode(current.getRight(), value);
     }
 
@@ -120,13 +121,56 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
     @Override
     public void clear() {
-	// TODO Auto-generated method stub
+	root = null;
+	size = 0;
     }
 
     @Override
     public Iterator<T> iterator() {
-	// TODO Auto-generated method stub
-	return null;
+	return (new MyIterator(this));
+    }
+
+    private class MyIterator implements Iterator<T> {
+	private BinaryTree<T> tree = null;
+	private Node<T> last = null;
+	private Queue<Node<T>> queue = new ArrayDeque<>();
+
+	public MyIterator(BinaryTree<T> tree) {
+	    this.tree = tree;
+	    if (tree.root != null) {
+		queue.add(tree.root);
+	    }
+	}
+
+	@Override
+	public boolean hasNext() {
+	    if (queue.size() > 0) {
+		return true;
+	    }
+	    return false;
+	}
+
+	@Override
+	public T next() {
+	    while (hasNext()) {
+		Node<T> n = queue.poll();
+		if (n.getLeft() != null) {
+		    queue.add(n.getLeft());
+		}
+		if (n.getRight() != null) {
+		    queue.add(n.getRight());
+		}
+		last = n;
+		return n.getValue();
+	    }
+	    return null;
+	}
+
+	@Override
+	public void remove() {
+	    tree.remove(last.getValue());
+	}
+
     }
 
     @Override
@@ -137,11 +181,14 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
     @Override
     public int hashCode() {
-	// TODO
-	return 0;
+	int result = 17;
+	Iterator<T> it = iterator();
+	while (it.hasNext()) {
+	    result = result * 31 + it.next().hashCode();
+	}
+	return result;
     }
 
     // Helpers
 
-    
 }
