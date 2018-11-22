@@ -76,26 +76,90 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
     @Override
     public T lower(T e) {
-	// TODO Auto-generated method stub
-	return null;
+	Node<T> node = getNode(e);
+	if (isValid(node.getLeft())) {
+	    node = node.getLeft();
+	    node = pollL(node);
+	} else {
+	    node = getParent(e, root, root);
+	    while (e.compareTo(node.getValue()) < 0) {
+		node = getParent(node.getValue(), root, root);
+		if (node == root) {
+		    return null;
+		}
+	    }
+	}
+	return node.getValue();
     }
 
     @Override
-    public T higher(T e) {
-	// TODO Auto-generated method stub
-	return null;
+    public T higher(T e) { 			
+	Node<T> node = getNode(e);
+	if (isValid(node.getRight())) {
+	    node = node.getRight();
+	    node = pollF(node);
+	} else {
+	    node = getParent(e, root, root);
+	    while (e.compareTo(node.getValue()) > 0) {
+		node = getParent(node.getValue(), root, root);
+		if (node == root) {
+		    if (e.compareTo(node.getValue()) < 0) {
+			return node.getValue();
+		    }
+		    return null;
+		}
+	    }
+	}
+	return node.getValue();
     }
 
     @Override
     public T pollFirst() {
-	// TODO Auto-generated method stub
-	return null;
+	Node<T> node = root;
+	if (!isValid(node)) {
+	    return null;
+	}
+	while (node.getLeft() != null) {
+	    node = node.getLeft();
+	}
+	T result = node.getValue();
+	remove(result);
+	return result;
+    }
+
+    private Node<T> pollF(Node<T> node) {
+	if (!isValid(node)) {
+	    return null;
+	}
+	while (node.getLeft() != null) {
+	    node = node.getLeft();
+	}
+	Node<T> result = node;
+	return result;
     }
 
     @Override
     public T pollLast() {
-	// TODO Auto-generated method stub
-	return null;
+	Node<T> node = root;
+	if (!isValid(node)) {
+	    return null;
+	}
+	while (node.getRight() != null) {
+	    node = node.getRight();
+	}
+	T result = node.getValue();
+	return result;
+    }
+
+    private Node<T> pollL(Node<T> node) {
+	if (!isValid(node)) {
+	    return null;
+	}
+	while (node.getRight() != null) {
+	    node = node.getRight();
+	}
+	Node<T> result = node;
+	return result;
     }
 
     @Override
@@ -183,7 +247,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     // Helpers
-    
+
     private Node<T> getNode(T value) {
 	Node<T> node = root;
 	while (isValid(node)) {
@@ -197,8 +261,21 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	}
 	return null;
     }
-    
-    private boolean isValid (Node<T> node) {
+
+    private Node<T> getParent(T value, Node<T> node, Node<T> parent) {
+	if (!isValid(node)) {
+	    return null;
+	}
+	if (value.compareTo(node.getValue()) < 0) {
+	    return getParent(value, node.getLeft(), node);
+	} else if (value.compareTo(node.getValue()) > 0) {
+	    return getParent(value, node.getRight(), node);
+	} else {
+	    return parent;
+	}
+    }
+
+    private boolean isValid(Node<T> node) {
 	if (node != null && node.getValue() != null) {
 	    return true;
 	}
