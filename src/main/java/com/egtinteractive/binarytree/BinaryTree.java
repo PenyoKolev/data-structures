@@ -100,18 +100,11 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
     @Override
     public boolean contains(T o) {
-	return containsNode(root, o);
-    }
-
-    private boolean containsNode(Node<T> current, T value) {
-	if (current == null) {
-	    return false;
-	}
-	if (current.getValue() == value) {
+	Node<T> node = getNode(o);
+	if (node != null) {
 	    return true;
 	}
-	return value.compareTo(current.getValue()) < 0 ? containsNode(current.getLeft(), value)
-		: containsNode(current.getRight(), value);
+	return false;
     }
 
     @Override
@@ -190,5 +183,25 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     // Helpers
-
+    
+    private Node<T> getNode(T value) {
+	Node<T> node = root;
+	while (isValid(node)) {
+	    if (value.compareTo(node.getValue()) < 0) {
+		node = node.getLeft();
+	    } else if (value.compareTo(node.getValue()) > 0) {
+		node = node.getRight();
+	    } else if (value.compareTo(node.getValue()) == 0) {
+		return node;
+	    }
+	}
+	return null;
+    }
+    
+    private boolean isValid (Node<T> node) {
+	if (node != null && node.getValue() != null) {
+	    return true;
+	}
+	return false;
+    }
 }
