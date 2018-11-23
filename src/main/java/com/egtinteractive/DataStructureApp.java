@@ -19,7 +19,8 @@ public class DataStructureApp {
 	tree.add(17);
 	
 
-	System.out.println(tree.higher(10));
+	tree.remove(1);
+	
 
     }
 }

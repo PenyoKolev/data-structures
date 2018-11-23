@@ -8,6 +8,10 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
     private Node<T> root;
     private int size;
+    
+    private enum Direction {
+	GET_LEFT, GET_RIGHT;
+    }
 
     public BinaryTree() {
 	root = null;
@@ -125,23 +129,6 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	T result = poll(root, Direction.GET_RIGHT);
 	remove(result);
 	return result;
-    }
-    
-    private T poll(Node<T> node, Direction direction) {
-	if (!isValid(node)) {
-	    return null;
-	}
-	if (direction == Direction.GET_LEFT) {
-	    while (node.getLeft() != null) {
-		node = node.getLeft();
-	    }
-	}
-	if (direction == Direction.GET_RIGHT) {
-	    while (node.getRight() != null) {
-		node = node.getRight();
-	    }
-	}
-	return node.getValue();
     }
 
     @Override
@@ -275,6 +262,23 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	    return parent;
 	}
     }
+    
+    private T poll(Node<T> node, Direction direction) {
+	if (!isValid(node)) {
+	    return null;
+	}
+	if (direction == Direction.GET_LEFT) {
+	    while (node.getLeft() != null) {
+		node = node.getLeft();
+	    }
+	}
+	if (direction == Direction.GET_RIGHT) {
+	    while (node.getRight() != null) {
+		node = node.getRight();
+	    }
+	}
+	return node.getValue();
+    }
 
     private boolean isValid(Node<T> node) {
 	if (node != null && node.getValue() != null) {
@@ -282,8 +286,6 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	}
 	return false;
     }
-
-    private enum Direction {
-	GET_LEFT, GET_RIGHT;
-    }
+    
+    
 }
