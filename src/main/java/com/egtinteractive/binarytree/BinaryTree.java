@@ -8,7 +8,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
     private Node<T> root;
     private int size;
-    
+
     private enum Direction {
 	GET_LEFT, GET_RIGHT;
     }
@@ -32,6 +32,8 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	    current.setLeft(insert(current.getLeft(), value));
 	} else if (current.getValue().compareTo(value) < 0) {
 	    current.setRight(insert(current.getRight(), value));
+	} else if (current.getValue().compareTo(value) == 0) {
+	    size--;
 	}
 	return current;
     }
@@ -40,13 +42,13 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
     public boolean remove(T element) {
 	int sizeBefore = size;
 	delete(root, element);
+	size--;
 	return sizeBefore > size ? true : false;
     }
 
     private Node<T> delete(Node<T> current, T value) {
 	if (current.getValue() == value) {
 	    if (current.getLeft() == null && current.getRight() == null) {
-		size--;
 		return null;
 	    } else if (current.getLeft() == null) {
 		current = current.getRight();
@@ -59,7 +61,6 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 		current.setValue(smallest.getValue());
 		current.setRight(delete(current.getRight(), smallest.getValue()));
 	    }
-	    size--;
 	    return current;
 	}
 	if (value.compareTo(current.getValue()) < 0) {
@@ -119,6 +120,9 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
     @Override
     public T pollFirst() {
+	if (!isValid(root)) {
+	    return null;
+	}
 	T result = poll(root, Direction.GET_LEFT);
 	remove(result);
 	return result;
@@ -126,9 +130,26 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
     @Override
     public T pollLast() {
+	if (!isValid(root)) {
+	    return null;
+	}
 	T result = poll(root, Direction.GET_RIGHT);
 	remove(result);
 	return result;
+    }
+
+    private T poll(Node<T> node, Direction direction) {
+	if (direction == Direction.GET_LEFT) {
+	    while (node.getLeft() != null) {
+		node = node.getLeft();
+	    }
+	}
+	if (direction == Direction.GET_RIGHT) {
+	    while (node.getRight() != null) {
+		node = node.getRight();
+	    }
+	}
+	return node.getValue();
     }
 
     @Override
@@ -262,23 +283,6 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	    return parent;
 	}
     }
-    
-    private T poll(Node<T> node, Direction direction) {
-	if (!isValid(node)) {
-	    return null;
-	}
-	if (direction == Direction.GET_LEFT) {
-	    while (node.getLeft() != null) {
-		node = node.getLeft();
-	    }
-	}
-	if (direction == Direction.GET_RIGHT) {
-	    while (node.getRight() != null) {
-		node = node.getRight();
-	    }
-	}
-	return node.getValue();
-    }
 
     private boolean isValid(Node<T> node) {
 	if (node != null && node.getValue() != null) {
@@ -286,6 +290,5 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	}
 	return false;
     }
-    
-    
+
 }

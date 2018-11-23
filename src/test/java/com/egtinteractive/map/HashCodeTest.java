@@ -2,13 +2,9 @@ package com.egtinteractive.map;
 
 import org.testng.annotations.Test;
 
-import com.egtinteractive.list.Generator;
+import com.egtinteractive.Generator;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.BeforeClass;
 

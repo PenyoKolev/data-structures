@@ -2,6 +2,8 @@ package com.egtinteractive.list;
 
 import org.testng.annotations.Test;
 
+import com.egtinteractive.Generator;
+
 import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.BeforeClass;

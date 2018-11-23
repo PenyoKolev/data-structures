@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.egtinteractive.list.Generator;
+import com.egtinteractive.Generator;
 
 public class ContainsValueTest extends Generator {
     GenericMap<Integer, String> map;

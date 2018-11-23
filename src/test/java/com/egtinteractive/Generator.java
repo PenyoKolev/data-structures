@@ -1,8 +1,11 @@
-package com.egtinteractive.list;
+package com.egtinteractive;
+
 
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.egtinteractive.binarytree.Tree;
+import com.egtinteractive.list.GenericList;
 import com.egtinteractive.map.GenericMap;
 
 public class Generator {
@@ -24,6 +27,13 @@ public class Generator {
 	    int key = ThreadLocalRandom.current().nextInt();
 	    String value = UUID.randomUUID().toString();
 	    map.put(key, value);
+	}
+    }
+    
+    public void fillTreeWithIntegers(Tree<Integer> tree) {
+	int[] numbers = {38, 13, 51, 10, 12, 40, 84, 25, 89, 37, 66, 95};
+	for (int i : numbers) {
+	    tree.add(i);
 	}
     }
 }

@@ -2,7 +2,7 @@ package com.egtinteractive.map;
 
 import org.testng.annotations.Test;
 
-import com.egtinteractive.list.Generator;
+import com.egtinteractive.Generator;
 
 import static org.testng.Assert.assertEquals;
 

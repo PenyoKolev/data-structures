@@ -8,7 +8,6 @@ public class DataStructureApp {
     public static void main(String[] args) {
 
 	Tree<Integer> tree = new BinaryTree<>();
-	Tree<Integer> tree1 = new BinaryTree<>();
 
 	tree.add(20);
 	tree.add(15);
@@ -18,9 +17,7 @@ public class DataStructureApp {
 	tree.add(16);
 	tree.add(17);
 	
-
-	tree.remove(1);
 	
-
+	
     }
 }

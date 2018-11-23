@@ -5,7 +5,7 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.egtinteractive.list.Generator;
+import com.egtinteractive.Generator;
 
 public class ClearTest extends Generator {
     

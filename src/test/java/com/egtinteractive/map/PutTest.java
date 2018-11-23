@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.egtinteractive.list.Generator;
+import com.egtinteractive.Generator;
 
 @Test(groups = "map-tests")
 public class PutTest extends Generator {
