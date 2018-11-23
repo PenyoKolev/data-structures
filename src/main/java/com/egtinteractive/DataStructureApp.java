@@ -18,8 +18,8 @@ public class DataStructureApp {
 	tree.add(16);
 	tree.add(17);
 	
-	System.out.println(tree.lower(10));
-	System.out.println();
+
+	System.out.println(tree.higher(10));
 
     }
 }
