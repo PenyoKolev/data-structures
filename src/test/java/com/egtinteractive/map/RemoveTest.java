@@ -23,17 +23,16 @@ public class RemoveTest extends Generator {
 
     @Test
     public void remove_shouldDeleteValue_associatedWithKey() {
-	// Arrange
+	//Arrange
 	int key = ThreadLocalRandom.current().nextInt();
 	String value = UUID.randomUUID().toString();
 	map.put(key, value);
-
-	// Act
+	
+	//Act
 	map.remove(key);
-	String expected = map.get(key);
-
-	// Assert
-	assertNull(expected);
+	
+	//Assert
+	assertNull(map.get(key));
     }
 
     @Test
@@ -42,11 +41,8 @@ public class RemoveTest extends Generator {
 	int key = ThreadLocalRandom.current().nextInt();
 	String value = UUID.randomUUID().toString();
 	map.put(key, value);
-
-	// Act
-	String expected = map.remove(key);
-
+	
 	// Assert
-	assertEquals(value, expected);
+	assertEquals(value, map.remove(key));
     }
 }
