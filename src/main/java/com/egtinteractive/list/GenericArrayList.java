@@ -132,7 +132,7 @@ public class GenericArrayList<T> implements GenericList<T> {
 	Iterator<T> it1 = iterator();
 	Iterator<?> it2 = list.iterator();
 
-	while (--size >= 0) {
+	while (it1.hasNext()) {
 	    if (!it1.next().equals(it2.next())) {
 		return false;
 	    }
