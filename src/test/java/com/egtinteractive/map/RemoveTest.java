@@ -9,13 +9,12 @@ import static org.testng.Assert.assertNull;
 
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
-
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 public class RemoveTest extends Generator {
     GenericMap<Integer, String> map;
 
-    @BeforeClass
+    @BeforeMethod
     public void beforeClass() {
 	map = new GenericMap<>();
 	fillMapWithString(10, map);
