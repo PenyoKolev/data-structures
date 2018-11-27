@@ -1,5 +1,6 @@
 package com.egtinteractive.list;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -33,22 +34,23 @@ public class GenericArrayList<T> implements GenericList<T> {
 	size++;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void add(int index, T element) {
+	if (index == size) {
+	    add(element);
+	    return;
+	}
 	if (isNotValid(index)) {
 	    throw new IndexOutOfBoundsException(message(index));
 	}
-	T[] newArray = (T[]) new Object[size + 1];
-	for (int i = 0; i < index; i++) {
-	    newArray[i] = array[i];
-	}
-	newArray[index] = element;
-	for (int i = index + 1; i < newArray.length; i++) {
-	    newArray[i] = array[i - 1];
+	if (size >= array.length) {
+	    resize();
 	}
 	size++;
-	array = newArray;
+	for (int i = size; i >= index; i--) {
+	    array[i + 1] = array[i];
+	}
+	array[index] = element;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class GenericArrayList<T> implements GenericList<T> {
     }
 
     @Override
-    public boolean remove(T element) {
+    public boolean remove(T element) {   // Check with Ivailo(if list of integers no difference entre element and index)
 	int index = indexOf(element);
 	if (index == -1) {
 	    return false;
@@ -69,7 +71,7 @@ public class GenericArrayList<T> implements GenericList<T> {
     }
 
     @Override
-    public boolean remove(int index) {
+    public boolean remove(int index) {    // Check with Ivailo
 	if (isNotValid(index)) {
 	    for (int i = 0; i < size; i++) {
 		if (index == (int) array[i]) {
@@ -119,10 +121,7 @@ public class GenericArrayList<T> implements GenericList<T> {
 	if (this == otherObject) {
 	    return true;
 	}
-	if (otherObject == null) {
-	    return false;
-	}
-	if (getClass() != otherObject.getClass()) {
+	if (!(otherObject instanceof GenericList)) {
 	    return false;
 	}
 	GenericList<?> list = (GenericList<?>) otherObject;
