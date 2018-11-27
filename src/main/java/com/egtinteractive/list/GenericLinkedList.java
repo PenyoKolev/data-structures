@@ -5,6 +5,21 @@ import java.util.Objects;
 
 public class GenericLinkedList<T> implements GenericList<T> {
 
+    private static class Node<T> {
+
+	private T data;
+	private Node<T> next;
+
+	public Node(T data, Node<T> next) {
+	    this.data = data;
+	    this.next = next;
+	}
+
+	public Node(T data) {
+	    this(data, null);
+	}
+    }
+
     private Node<T> head;
     private int size = 0;
 
@@ -13,9 +28,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
 
     @Override
     public T get(int index) {
-	if (isNotValid(index)) {
-	    throw new IndexOutOfBoundsException();
-	}
+	indexValidation(index);
 	Node<T> current = nodeAt(index);
 	return current.data;
     }
@@ -36,9 +49,11 @@ public class GenericLinkedList<T> implements GenericList<T> {
 
     @Override
     public void add(int index, T element) {
-	if (isNotValid(index)) {
-	    throw new IndexOutOfBoundsException();
+	if (index == size) {
+	    add(element);
+	    return;
 	}
+	indexValidation(index);
 	Node<T> current = nodeAt(index - 1);
 	current.next = new Node<T>(element, current.next);
 	size++;
@@ -46,15 +61,13 @@ public class GenericLinkedList<T> implements GenericList<T> {
 
     @Override
     public void set(int index, T element) {
-	if (isNotValid(index)) {
-	    throw new IndexOutOfBoundsException();
-	}
+	indexValidation(index);
 	Node<T> current = nodeAt(index);
 	current.data = element;
     }
 
     @Override
-    public boolean remove(T element) {
+    public boolean remove(T element) {   //  Check (integer could be value or index)
 	int index = indexOf(element);
 	if (head == null || index == -1) {
 	    return false;
@@ -64,15 +77,13 @@ public class GenericLinkedList<T> implements GenericList<T> {
 
     @Override
     public boolean remove(int index) {
-	if (isNotValid(index)) {
-	    throw new IndexOutOfBoundsException();
-	}
+	indexValidation(index);
 	if (index == 0) {
 	    head = head.next;
 	} else {
 	    Node<T> previousNode = nodeAt(index - 1);
-	    Node<T> nodeToRemove = previousNode.getNext();
-	    previousNode.setNext(nodeToRemove.getNext());
+	    Node<T> nodeToRemove = previousNode.next;
+	    previousNode.next = nodeToRemove.next;
 	}
 	size--;
 	return true;
@@ -91,7 +102,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
 		if (current.data.equals(element)) {
 		    return index;
 		}
-		current = current.getNext();
+		current = current.next;
 	    }
 	}
 	return -1;
@@ -105,6 +116,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
     @Override
     public void clear() {
 	head = null;
+	size = 0;
     }
 
     @Override
@@ -117,10 +129,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	if (this == otherObject) {
 	    return true;
 	}
-	if (otherObject == null) {
-	    return false;
-	}
-	if (getClass() != otherObject.getClass()) {
+	if (!(otherObject instanceof GenericList)) {
 	    return false;
 	}
 	GenericList<?> list = (GenericList<?>) otherObject;
@@ -146,7 +155,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	while (it.hasNext()) {
 	    result = 31 * result + Objects.hashCode(it.next());
 	}
-	return result;
+	return result + Objects.hashCode(size);
     }
 
     // Helpers
@@ -176,9 +185,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     private Node<T> nodeAt(int index) {
-	if (isNotValid(index)) {
-	    throw new IndexOutOfBoundsException();
-	}
+	indexValidation(index);
 	Node<T> current = head;
 	for (int i = 0; i < index; i++) {
 	    current = current.next;
@@ -186,7 +193,11 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	return current;
     }
 
-    private boolean isNotValid(int index) {
-	return index < 0 || index > size - 1 ? true : false;
+    private void indexValidation(int index) {
+	if (index < 0 || index > size - 1) {
+	    String message = String.format("\nIndex - %d out of bound!\nShould be in a range of 0 to %d", index,
+		    size - 1);
+	    throw new IndexOutOfBoundsException(message);
+	}
     }
 }

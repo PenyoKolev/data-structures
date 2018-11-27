@@ -1,6 +1,5 @@
 package com.egtinteractive.list;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -189,6 +188,6 @@ public class GenericArrayList<T> implements GenericList<T> {
     }
     
     private String message(int index) {
-	return String.format("\nIndex - %d out of bound!\nShould be in a range of 0 to %d", index, size);
+	return String.format("\nIndex - %d out of bound!\nShould be in a range of 0 to %d", index, size - 1);
     }
 }
