@@ -14,13 +14,12 @@ public class DataStructureApp {
 	list.add(4);
 	list.add(5);
 	list.add(5, 100);
-	list.remove(5);
 
 	for (Integer integer : list) {
 	    System.out.println(integer);
 	}
 	
 	
-	
+	System.out.println(list.size());
     }
 }

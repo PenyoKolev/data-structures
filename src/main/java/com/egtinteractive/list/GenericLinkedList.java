@@ -54,6 +54,14 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	    return;
 	}
 	indexValidation(index);
+	if (index == 0) {
+	    Node<T> current = head;
+	    Node<T> newNode = new Node<T>(element, current);
+	    head = newNode;
+	    newNode.next = current;
+	    size++;
+	    return;
+	}
 	Node<T> current = nodeAt(index - 1);
 	current.next = new Node<T>(element, current.next);
 	size++;
@@ -67,7 +75,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public boolean remove(T element) {   //  Check (integer could be value or index)
+    public boolean remove(T element) { // Check (integer could be value or index)
 	int index = indexOf(element);
 	if (head == null || index == -1) {
 	    return false;
@@ -195,7 +203,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
 
     private void indexValidation(int index) {
 	if (index < 0 || index > size - 1) {
-	    String message = String.format("\nIndex - %d out of bound!\nShould be in a range of 0 to %d", index,
+	    String message = String.format("\nIndex: %d out of bound!\nShould be in a range of 0 to %d", index,
 		    size - 1);
 	    throw new IndexOutOfBoundsException(message);
 	}

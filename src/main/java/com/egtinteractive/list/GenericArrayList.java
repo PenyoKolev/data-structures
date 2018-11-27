@@ -46,7 +46,10 @@ public class GenericArrayList<T> implements GenericList<T> {
 	    resize();
 	}
 	size++;
-	for (int i = size; i >= index; i--) {
+	for (int i = size - 1; i >= index; i--) {
+	    if (i != 0) {
+
+	    }
 	    array[i + 1] = array[i];
 	}
 	array[index] = element;
@@ -188,6 +191,6 @@ public class GenericArrayList<T> implements GenericList<T> {
     }
     
     private String message(int index) {
-	return String.format("\nIndex - %d out of bound!\nShould be in a range of 0 to %d", index, size - 1);
+	return String.format("\nIndex: %d out of bound!\nShould be in a range of 0 to %d", index, size - 1);
     }
 }
