@@ -14,13 +14,12 @@ public class GenericArrayList<T> implements GenericList<T> {
     @SuppressWarnings("unchecked")
     public GenericArrayList() {
 	array = (T[]) new Object[INITIAL_CAPACITY];
-	size = 0;
     }
 
     @Override
     public T get(int index) {
 	if (isNotValid(index)) {
-	    throw new IndexOutOfBoundsException();
+	    throw new IndexOutOfBoundsException(message(index));
 	}
 	return array[index];
     }
@@ -38,7 +37,7 @@ public class GenericArrayList<T> implements GenericList<T> {
     @Override
     public void add(int index, T element) {
 	if (isNotValid(index)) {
-	    throw new IndexOutOfBoundsException();
+	    throw new IndexOutOfBoundsException(message(index));
 	}
 	T[] newArray = (T[]) new Object[size + 1];
 	for (int i = 0; i < index; i++) {
@@ -55,7 +54,7 @@ public class GenericArrayList<T> implements GenericList<T> {
     @Override
     public void set(int index, T element) {
 	if (isNotValid(index)) {
-	    throw new IndexOutOfBoundsException();
+	    throw new IndexOutOfBoundsException(message(index));
 	}
 	array[index] = element;
     }
@@ -86,7 +85,7 @@ public class GenericArrayList<T> implements GenericList<T> {
 
     @Override
     public boolean contains(T o) {
-	return indexOf(o) != -1 ? true : false;
+	return indexOf(o) != -1;
     }
 
     @Override
@@ -103,10 +102,11 @@ public class GenericArrayList<T> implements GenericList<T> {
 	return size;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void clear() {
+	array = (T[]) new Object[INITIAL_CAPACITY];
 	size = 0;
-
     }
 
     @Override
@@ -148,7 +148,7 @@ public class GenericArrayList<T> implements GenericList<T> {
 	while(it.hasNext()) {
 	    result = 31 * result + Objects.hashCode(it.next());
 	}
-	return result;
+	return result + Objects.hashCode(size);
     }
 
     // Helpers
@@ -165,7 +165,7 @@ public class GenericArrayList<T> implements GenericList<T> {
 	    if (hasNext()) {
 		return array[current++];
 	    } else {
-		throw new NoSuchElementException();
+		throw new NoSuchElementException("No next element!");
 	    }
 	}
 	
@@ -186,6 +186,10 @@ public class GenericArrayList<T> implements GenericList<T> {
     }
 
     private boolean isNotValid(int index) {
-	return index < 0 || index > size - 1 ? true : false;
+	return index < 0 || index > size - 1;
+    }
+    
+    private String message(int index) {
+	return String.format("\nIndex - %d out of bound!\nShould be in a range of 0 to %d", index, size);
     }
 }
