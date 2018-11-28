@@ -42,10 +42,10 @@ public class GenericArrayList<T> implements GenericList<T> {
 	if (isNotValid(index)) {
 	    throw new IndexOutOfBoundsException(message(index));
 	}
+	size++;
 	if (size >= array.length) {
 	    resize();
 	}
-	size++;
 	for (int i = size - 1; i >= index; i--) {
 	    if (i != 0) {
 

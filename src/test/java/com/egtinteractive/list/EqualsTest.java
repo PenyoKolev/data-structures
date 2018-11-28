@@ -9,72 +9,62 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
 public class EqualsTest extends Generator {
-
-    GenericList<Integer> aList;
-    GenericList<Integer> aList1;
-
-    GenericList<Integer> lList;
-    GenericList<Integer> lList1;
-
-    @BeforeMethod
-    public void beforeMethods() {
-	aList = new GenericArrayList<Integer>();
-	aList1 = new GenericArrayList<Integer>();
-	for (int i = 0; i < 10; i++) {
-	    int number = ThreadLocalRandom.current().nextInt(1, 100);
-	    aList.add(number);
-	    aList1.add(number);
-	}
-	lList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, lList);
-	lList1 = new GenericArrayList<Integer>();
-	for (Integer integer : lList) {
-	    lList1.add(integer);
-	}
-    }
-
-    @Test
-    public void equals_shouldReturnTrue_ifArrayListsAreEquals() {
-	// Act
-	boolean isEquals = aList.equals(aList1);
-
-	// Assert
-	assertTrue(isEquals);
-    }
     
-    @Test
-    public void equals_shouldReturnTrue_ifLinkedListsAreEquals() {
-	// Act
-	boolean isEquals = lList.equals(lList1);
-
-	// Assert
-	assertTrue(isEquals);
+    @DataProvider(name = "lists")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericArrayList<>(), new GenericArrayList<>() }, { new GenericLinkedList<>(), new GenericLinkedList<>() }, };
     }
-    
-    @Test
-    public void equals_shouldReturnFalse_ifArrayListsAreNotEquals() {
-	//Arrange
-	aList.remove(0);
+
+    @Test(dataProvider = "lists")
+    public void equalsShouldReturnTrueIfListsAreEquals(GenericList<Integer> list, GenericList<Integer> list1) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	for (Integer integer : list) {
+	    list1.add(integer);
+	}
 	
 	// Act
-	boolean isEquals = aList.equals(aList1);
-
+	boolean equals = list.equals(list1);
+	
 	// Assert
-	assertFalse(isEquals);
+	assertTrue(equals);
     }
-    
-    @Test
-    public void equals_shouldReturnTrue_ifLinkedListsAreNotEquals() {
-	//Arrange
-	lList.remove(0);
+
+    @Test(dataProvider = "lists")
+    public void equalsShouldReturnFalseIfListsAreNotEquals(GenericList<Integer> list, GenericList<Integer> list1) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	for (Integer integer : list) {
+	    list1.add(integer);
+	}
+	list.add(ThreadLocalRandom.current().nextInt());
 	
 	// Act
-	boolean isEquals = lList.equals(lList1);
+	boolean equals = list.equals(list1);
 
 	// Assert
-	assertFalse(isEquals);
+	assertFalse(equals);
+    }
+    
+    @Test(dataProvider = "lists")
+    public void equalsShouldReturnTrueIfBothListsAreEmpty(GenericList<Integer> list, GenericList<Integer> list1) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	int size1 = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size1, list1);
+	list.clear();
+	list1.clear();
+	
+	// Act
+	boolean equals = list.equals(list1);
+
+	// Assert
+	assertTrue(equals);
     }
 }

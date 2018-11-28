@@ -61,6 +61,4 @@ public class AddTest extends Generator {
 	// Assert
 	assertEquals(list.indexOf(element), 0);
     }
-    
-    
 }

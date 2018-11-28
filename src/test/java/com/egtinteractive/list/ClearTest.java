@@ -6,30 +6,30 @@ import com.egtinteractive.Generator;
 
 import static org.testng.Assert.assertEquals;
 
-import org.testng.annotations.BeforeClass;
+import java.util.concurrent.ThreadLocalRandom;
+
+import org.testng.annotations.DataProvider;
 
 @Test(groups = "list-tests")
 public class ClearTest extends Generator {
 
-    GenericList<Integer> aList;
-    GenericList<Integer> lList;
-
-    @BeforeClass
-    public void beforeClass() {
-	aList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, aList);
-	lList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, lList);
+    @DataProvider(name = "lists")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericArrayList<>() }, { new GenericLinkedList<>() }, };
     }
 
-    @Test
-    public void clear_shouldEmpty_list() {
+    @Test(dataProvider = "lists")
+    public void clearShouldEmptyList(GenericList<Integer> list) {
+	//Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	
 	//Act
-	aList.clear();
-	int size = aList.size();
+	list.clear();
+	int ListSize = list.size();
 	
 	//Assert
-	assertEquals(size, 0);
+	assertEquals(ListSize, 0);
     }
 
 }

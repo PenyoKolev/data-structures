@@ -104,10 +104,10 @@ public class GenericLinkedList<T> implements GenericList<T> {
 
     @Override
     public int indexOf(T element) {
-	if (head != null) {
+	if (size != 0) {
 	    Node<T> current = head;
 	    for (int index = 0; index < size; index++) {
-		if (current.data.equals(element)) {
+		if (Objects.equals(current.data, element)) {
 		    return index;
 		}
 		current = current.next;

@@ -5,45 +5,49 @@ import org.testng.annotations.Test;
 import com.egtinteractive.Generator;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 
 @Test(groups = "list-tests")
 public class GetTest extends Generator {
 
-    GenericList<Integer> aList;
-    GenericList<Integer> lList;
-
-    @BeforeClass
-    public void beforeClass() {
-	aList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, aList);
-	lList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, lList);
+    @DataProvider(name = "lists")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericArrayList<>() }, { new GenericLinkedList<>() }, };
     }
 
-    @Test
-    public void get_shouldReturn_elementAtIndex() {
-	//Arrange
-	for (int i = 0; i < aList.size(); i++) {
-	    aList.set(i, i);
-	}
-	
-	//Act
-	int index = ThreadLocalRandom.current().nextInt(0, 9);
-	int result = aList.get(index);
-	
-	//Assert
-	assertEquals(index, result);
-    }
-    
-    @Test(expectedExceptions = IndexOutOfBoundsException.class)
-    public void get_shouldThrowException_ifNonValidIndex() {
+    @Test(dataProvider = "lists")
+    public void getShouldReturnElementAtIndex(GenericList<Integer> list) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	/**
+	 * If size = 1, index should be 0, but second parameter in nextInt should be
+	 * strictly greater;
+	 */
+	int indexBound = (size == 1) ? 1 : size - 1;
+	int index = ThreadLocalRandom.current().nextInt(0, indexBound);
+	int element = ThreadLocalRandom.current().nextInt();
+	list.add(index, element);
+
 	// Act
-	aList.get(-1);
+	int result = list.get(index);
+
+	// Assert
+	assertEquals(result, element);
     }
-    
-    
+
+    @Test(dataProvider = "lists", expectedExceptions = IndexOutOfBoundsException.class)
+    public void getShouldThrowExceptionIfNonValidIndex(GenericList<Integer> list) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+
+	// Act
+	list.get(-1);
+    }
 }

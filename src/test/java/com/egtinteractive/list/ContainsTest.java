@@ -9,48 +9,37 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 
 @Test(groups = "list-tests")
 public class ContainsTest extends Generator {
-    
-    GenericList<Integer> aList;
-    GenericList<Integer> lList;
 
-    @BeforeClass
-    public void beforeClass() {
-	aList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, aList);
-	lList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, lList);
+    @DataProvider(name = "lists")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericArrayList<>() }, { new GenericLinkedList<>() }, };
     }
 
-    @Test
-    public void contains_shouldReturnTrue_ifElementFound() {
-	//Arrange
+    @Test(dataProvider = "lists")
+    public void containsShouldReturnTrueIfElementFound(GenericList<Integer> list) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
 	int element = ThreadLocalRandom.current().nextInt();
-	aList.add(element);
-	boolean result;
-	
-	//Act
-	result = aList.contains(element);
-	
-	//Assert
-	assertTrue(result);
+	list.add(element);
+
+	// Assert
+	assertTrue(list.contains(element));
     }
 
-    @Test
-    public void contains_shouldReturnFalse_ifElementNotFound() {
-	//Arrange
-	int index = ThreadLocalRandom.current().nextInt(0 ,9);
-	int element = aList.get(index);
-	aList.remove(index);
-	boolean result;
+    @Test(dataProvider = "lists")
+    public void containsShouldReturnFalseIfElementNotFound(GenericList<Integer> list) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	int element = ThreadLocalRandom.current().nextInt();
 	
-	//Act
-	result = aList.contains(element);
 	
-	//Assert
-	assertFalse(result);
+	// Assert
+	assertFalse(list.contains(element));
     }
 }
