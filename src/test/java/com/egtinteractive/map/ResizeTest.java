@@ -9,28 +9,28 @@ import static org.testng.Assert.assertEquals;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 
-public class ResizeTest extends Generator{
-    
-    GenericMap<Integer, String> map;
+@Test(groups = "map-tests")
+public class ResizeTest extends Generator {
 
-    @BeforeClass
-    public void beforeClass() {
-	map = new GenericMap<>();
-	fillMapWithString(10, map);
+    @DataProvider(name = "maps")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericMap<>() } };
     }
-    
-    @Test
-    public void resize_shouldKeepKeys_unchanged() {
-	//Arrange
-	int key = ThreadLocalRandom.current().nextInt(0, 10);
-	String value = map.get(key);
-	
-	//Act
+
+    @Test(dataProvider = "maps")
+    public void resizeShouldKeepKeysUnchanged(Map<Integer, String> map) {
+	// Arrange
+	int key = ThreadLocalRandom.current().nextInt();
+	String value = UUID.randomUUID().toString();
+	map.put(key, value);
+	fillMapWithString(9, map);
+
+	// Act
 	map.put(ThreadLocalRandom.current().nextInt(), UUID.randomUUID().toString());
-	
-	//Assert
+
+	// Assert
 	assertEquals(value, map.get(key));
     }
 }

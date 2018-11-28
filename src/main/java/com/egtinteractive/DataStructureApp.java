@@ -27,7 +27,6 @@ public class DataStructureApp {
 	map1.put(4, "four");
 	map1.put(5, "five");
 	
-	map.remove(1);
 
 	System.out.println(map.equals(map1));
     }

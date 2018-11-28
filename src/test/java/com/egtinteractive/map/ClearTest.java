@@ -2,29 +2,32 @@ package com.egtinteractive.map;
 
 import static org.testng.Assert.assertEquals;
 
-import org.testng.annotations.BeforeClass;
+import java.util.concurrent.ThreadLocalRandom;
+
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 
+@Test(groups = "map-tests")
 public class ClearTest extends Generator {
     
-    GenericMap<Integer, String> map;
-
-    @BeforeClass
-    public void beforeClass() {
-	map = new GenericMap<>();
-	fillMapWithString(10, map);
-
+    @DataProvider(name = "maps")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericMap<>() } };
     }
-
-    @Test
-    public void clear_shouldEmpty_map() {
+    
+    @Test(dataProvider = "maps")
+    public void clearShouldEmptyMap(Map<Integer, String> map) {
+	//Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
+	
 	//Act
 	map.clear();
-	int size = map.size();
+	int MapSize = map.size();
 	
 	//Assert
-	assertEquals(0, size);
+	assertEquals(MapSize, 0);
     }
 }

@@ -3,8 +3,6 @@ package com.egtinteractive.map;
 import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
-import com.egtinteractive.list.GenericArrayList;
-import com.egtinteractive.list.GenericLinkedList;
 import com.egtinteractive.map.GenericMap.Node;
 
 import static org.testng.Assert.assertFalse;
@@ -13,18 +11,17 @@ import static org.testng.Assert.assertTrue;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 
 @Test(groups = "map-tests")
 public class EqualsTest extends Generator {
 
-    @DataProvider(name = "lists")
+    @DataProvider(name = "maps")
     public Object[][] createData() {
 	return new Object[][] { { new GenericMap<>(), new GenericMap<>() } };
     }
     
-    @Test(dataProvider = "lists")
+    @Test(dataProvider = "maps")
     public void equalsShouldReturnTrueIfMapsAreEquals(Map<Integer, String> map, Map<Integer, String> map1) {
 	//Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
@@ -40,7 +37,7 @@ public class EqualsTest extends Generator {
 	assertTrue(isEquals);
     }
     
-    @Test(dataProvider = "lists")
+    @Test(dataProvider = "maps")
     public void equalsShouldReturnFalseIfMapsAreNotEquals(Map<Integer, String> map, Map<Integer, String> map1) {
 	//Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);

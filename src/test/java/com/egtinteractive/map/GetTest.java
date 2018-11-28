@@ -10,22 +10,21 @@ import static org.testng.Assert.assertNull;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 
+@Test(groups = "map-tests")
 public class GetTest extends Generator {
 
-    GenericMap<Integer, String> map;
-
-    @BeforeClass
-    public void beforeClass() {
-	map = new GenericMap<>();
-	fillMapWithString(10, map);
-
+    @DataProvider(name = "maps")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericMap<>() } };
     }
 
-    @Test
-    public void get_shouldReturnValue_associateWithThisKey() {
+    @Test(dataProvider = "maps")
+    public void getShouldReturnValueAssociateWithThisKey(Map<Integer, String> map) {
 	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
 	int key = ThreadLocalRandom.current().nextInt();
 	String value = UUID.randomUUID().toString();
 	map.put(key, value);
@@ -38,9 +37,12 @@ public class GetTest extends Generator {
 
     }
 
-    @Test
-    public void get_shoulReturnNull_ifNotSuchKey() {
+    @Test(dataProvider = "maps")
+    public void getShoulReturnNullIfNotSuchKey(Map<Integer, String> map) {
 	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
+
 	int key = ThreadLocalRandom.current().nextInt();
 	String value = UUID.randomUUID().toString();
 	map.put(key, value);

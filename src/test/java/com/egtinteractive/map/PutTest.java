@@ -5,7 +5,7 @@ import static org.testng.Assert.assertEquals;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
@@ -13,18 +13,16 @@ import com.egtinteractive.Generator;
 @Test(groups = "map-tests")
 public class PutTest extends Generator {
     
-    GenericMap<Integer, String> map;
-
-    @BeforeClass
-    public void beforeClass() {
-	map = new GenericMap<>();
-	fillMapWithString(10, map);
-	
+    @DataProvider(name = "maps")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericMap<>() } };
     }
     
-    @Test
-    public void put_shouldAssociateValue_withKey() {
+    @Test(dataProvider = "maps")
+    public void putShouldAssociateValueWithKey(Map<Integer, String> map) {
 	//Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
 	int key = ThreadLocalRandom.current().nextInt();
 	String value = UUID.randomUUID().toString();
 	
@@ -36,9 +34,11 @@ public class PutTest extends Generator {
 	assertEquals(value, expected);
     }
     
-    @Test
-    public void put_shouldReturnValue() {
+    @Test(dataProvider = "maps")
+    public void putShouldReturnValue(Map<Integer, String> map) {
 	//Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
 	int key = ThreadLocalRandom.current().nextInt();
 	String value = UUID.randomUUID().toString();
 	
