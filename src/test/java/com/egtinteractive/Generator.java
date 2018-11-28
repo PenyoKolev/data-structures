@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.egtinteractive.binarytree.Tree;
 import com.egtinteractive.list.GenericList;
 import com.egtinteractive.map.GenericMap;
+import com.egtinteractive.map.Map;
 
 public class Generator {
 
@@ -22,7 +23,7 @@ public class Generator {
 	}
     }
 
-    public void fillMapWithString(int size, GenericMap<Integer, String> map) {
+    public void fillMapWithString(int size, Map<Integer, String> map) {
 	for (int i = 0; i < size; i++) {
 	    int key = ThreadLocalRandom.current().nextInt();
 	    String value = UUID.randomUUID().toString();

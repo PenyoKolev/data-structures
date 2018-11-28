@@ -5,12 +5,46 @@ import java.util.Objects;
 
 public class GenericMap<K, V> implements Map<K, V> {
 
-    private MapEntry<K, V>[] entries;
+    private Node<K, V>[] entries;
     private int size;
     private static final int INITIAL_CAPACITY = 10;
 
+    static class Node<K, V> {
+
+	private K key;
+	private V value;
+	private Node<K, V> next;
+
+	public Node(K key, V value, Node<K, V> next) {
+	    this.key = key;
+	    this.value = value;
+	    this.next = next;
+	}
+
+	public V getValue() {
+	    return value;
+	}
+
+	public void setValue(V value) {
+	    this.value = value;
+	}
+
+	public Node<K, V> getNext() {
+	    return next;
+	}
+
+	public void setNext(Node<K, V> next) {
+	    this.next = next;
+	}
+
+	public K getKey() {
+	    return key;
+	}
+    }
+
+    @SuppressWarnings("unchecked")
     public GenericMap() {
-	clear();
+	entries = new Node[INITIAL_CAPACITY];
     }
 
     @Override
@@ -19,7 +53,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 	if (entries[index] == null) {
 	    return null;
 	} else {
-	    MapEntry<K, V> temp = entries[index];
+	    Node<K, V> temp = entries[index];
 	    while (temp != null) {
 		if (temp.getKey().equals(key)) {
 		    return temp.getValue();
@@ -36,12 +70,12 @@ public class GenericMap<K, V> implements Map<K, V> {
 	    resize();
 	}
 	int index = hash(key, entries.length);
-	MapEntry<K, V> newEntry = new MapEntry<K, V>(key, value, null);
+	Node<K, V> newEntry = new Node<K, V>(key, value, null);
 	if (entries[index] == null) {
 	    entries[index] = newEntry;
 	} else {
-	    MapEntry<K, V> previous = null;
-	    MapEntry<K, V> current = entries[index];
+	    Node<K, V> previous = null;
+	    Node<K, V> current = entries[index];
 
 	    while (current != null) {
 		if (current.getKey().equals(key)) {
@@ -70,7 +104,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 	    return null;
 	}
 	int index = hash(key, entries.length);
-	MapEntry<K, V> temp = entries[index];
+	Node<K, V> temp = entries[index];
 	if (temp != null && temp.getKey().equals(key)) {
 	    entries[index] = null;
 	    size--;
@@ -82,7 +116,7 @@ public class GenericMap<K, V> implements Map<K, V> {
     @Override
     public boolean containsKey(K key) {
 	int index = hash(key, entries.length);
-	MapEntry<K, V> temp = entries[index];
+	Node<K, V> temp = entries[index];
 	while (temp != null) {
 	    if (temp.getKey().equals(key)) {
 		return true;
@@ -94,7 +128,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean containsValue(V value) {
-	for (MapEntry<K, V> entry : entries) {
+	for (Node<K, V> entry : entries) {
 	    if (entry != null && entry.getValue().equals(value)) {
 		return true;
 	    }
@@ -110,53 +144,13 @@ public class GenericMap<K, V> implements Map<K, V> {
     @SuppressWarnings("unchecked")
     @Override
     public void clear() {
-	entries = new MapEntry[INITIAL_CAPACITY];
+	entries = new Node[INITIAL_CAPACITY];
 	size = 0;
     }
 
     @Override
-    public Iterator<MapEntry<K, V>> iterator() {
-	Iterator<MapEntry<K, V>> iterator = new Iterator<MapEntry<K, V>>() {
-	    private int index;
-	    private MapEntry<K, V> marker = entries[index];
-	    private MapEntry<K, V> current = null;
-
-	    @Override
-	    public boolean hasNext() {
-		while (index < entries.length && marker == null) {
-		    marker = entries[index];
-		    if (marker == null) {
-			index++;
-		    }
-		}
-		if (index < entries.length) {
-		    return true;
-		}
-		return false;
-	    }
-
-	    @Override
-	    public MapEntry<K, V> next() {
-		if (hasNext()) {
-		    current = marker;
-		    marker = marker.getNext();
-		    if (marker == null) {
-			index++;
-		    }
-		    return current;
-
-		}
-		return null;
-	    }
-
-	    @Override
-	    public void remove() {
-		if (current != null) {
-		    GenericMap.this.remove(current.getKey());
-		}
-	    }
-	};
-	return iterator;
+    public Iterator<Node<K, V>> iterator() {
+	return new MyIterator();
     }
 
     @Override
@@ -167,17 +161,20 @@ public class GenericMap<K, V> implements Map<K, V> {
 	if (otherObject == null) {
 	    return false;
 	}
-	if (getClass() != otherObject.getClass()) {
+	if (!(otherObject instanceof Map)) {
 	    return false;
 	}
 
 	@SuppressWarnings("unchecked")
 	Map<K, V> newMap = (Map<K, V>) otherObject;
+	if (size != newMap.size()) {
+	    return false;
+	}
 
-	Iterator<MapEntry<K, V>> it = iterator();
+	Iterator<Node<K, V>> it = iterator();
 
 	while (it.hasNext()) {
-	    MapEntry<K, V> current = it.next();
+	    Node<K, V> current = it.next();
 	    if (!newMap.containsKey(current.getKey())) {
 		return false;
 	    }
@@ -191,11 +188,11 @@ public class GenericMap<K, V> implements Map<K, V> {
 
     @Override
     public int hashCode() {
-	Iterator<MapEntry<K, V>> it = iterator();
+	Iterator<Node<K, V>> it = iterator();
 	int result = 17;
 
 	while (it.hasNext()) {
-	    MapEntry<K, V> mapEntry = it.next();
+	    Node<K, V> mapEntry = it.next();
 	    K nextKey = mapEntry.getKey();
 	    V nextValue = mapEntry.getValue();
 
@@ -209,12 +206,54 @@ public class GenericMap<K, V> implements Map<K, V> {
 
     // Helpers
 
+    private class MyIterator implements Iterator<Node<K, V>> {
+	private int index;
+	private Node<K, V> marker = entries[index];
+	private Node<K, V> current = null;
+
+	@Override
+	public boolean hasNext() {
+	    while (index < entries.length && marker == null) {
+		marker = entries[index];
+		if (marker == null) {
+		    index++;
+		}
+	    }
+	    if (index < entries.length) {
+		return true;
+	    }
+	    return false;
+	}
+
+	@Override
+	public Node<K, V> next() {
+	    if (hasNext()) {
+		current = marker;
+		marker = marker.getNext();
+		if (marker == null) {
+		    index++;
+		}
+		return current;
+
+	    }
+	    return null;
+	}
+
+	@Override
+	public void remove() {
+	    if (current != null) {
+		GenericMap.this.remove(current.getKey());
+	    }
+	}
+
+    }
+
     @SuppressWarnings("unchecked")
     private void resize() {
-	MapEntry<K, V>[] temp = entries;
-	entries = new MapEntry[size * 2];
+	Node<K, V>[] temp = entries;
+	entries = new Node[size * 2];
 
-	for (MapEntry<K, V> entry : temp) {
+	for (Node<K, V> entry : temp) {
 	    while (entry != null) {
 		put(entry.getKey(), entry.getValue());
 		entry = entry.getNext();

@@ -1,6 +1,6 @@
 package com.egtinteractive.map;
 
-public interface Map<K, V> extends Iterable<MapEntry<K, V>> {
+public interface Map<K, V> extends Iterable<GenericMap.Node<K, V>> {
 
     V get(K key); // returns the value to which the specified key is mapped, or null if this map
 		  // contains no mapping for the key;
