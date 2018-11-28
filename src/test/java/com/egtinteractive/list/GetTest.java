@@ -25,14 +25,18 @@ public class GetTest extends Generator {
 	// Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
 	fillListWithIntegers(size, list);
+	int element = ThreadLocalRandom.current().nextInt();
+	int index;
 	/**
 	 * If size = 1, index should be 0, but second parameter in nextInt should be
 	 * strictly greater;
 	 */
-	int indexBound = (size == 1) ? 1 : size - 1;
-	int index = ThreadLocalRandom.current().nextInt(0, indexBound);
-	int element = ThreadLocalRandom.current().nextInt();
-	list.add(index, element);
+	if (size == 1) {
+	    index = 0;
+	} else {
+	    index = ThreadLocalRandom.current().nextInt(0, size - 1);
+	}
+	list.set(index, element);
 
 	// Act
 	int result = list.get(index);

@@ -37,8 +37,7 @@ public class ContainsTest extends Generator {
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
 	fillListWithIntegers(size, list);
 	int element = ThreadLocalRandom.current().nextInt();
-	
-	
+
 	// Assert
 	assertFalse(list.contains(element));
     }

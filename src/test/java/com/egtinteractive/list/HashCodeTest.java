@@ -5,53 +5,53 @@ import org.testng.annotations.Test;
 import com.egtinteractive.Generator;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 
+@Test(groups = "list-tests")
 public class HashCodeTest extends Generator {
 
-    GenericList<Integer> aList;
-    GenericList<Integer> aList1;
-
-    GenericList<Integer> lList;
-    GenericList<Integer> lList1;
-
-    @BeforeClass
-    public void beforeClass() {
-	aList = new GenericArrayList<Integer>();
-	aList1 = new GenericArrayList<Integer>();
-	for (int i = 0; i < 10; i++) {
-	    int number = ThreadLocalRandom.current().nextInt(1, 100);
-	    aList.add(number);
-	    aList1.add(number);
-	}
-	lList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, lList);
-	lList1 = new GenericArrayList<Integer>();
-	for (Integer integer : lList) {
-	    lList1.add(integer);
-	}
+    @DataProvider(name = "lists")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericArrayList<>(), new GenericArrayList<>() }, { new GenericLinkedList<>(), new GenericLinkedList<>() }, };
     }
 
-    @Test
-    public void hashCode_shouldReturnSameCode_forEqualArrayList() {
+    @Test(dataProvider = "lists")
+    public void hashCodeShouldReturnSameCodeForEqualLists(GenericList<Integer> list, GenericList<Integer> list1) {
+	//Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	for (Integer integer : list) {
+	    list1.add(integer);
+	}
+	
 	// Act
-	int hash = aList.hashCode();
-	int hash1 = aList1.hashCode();
+	int hash = list.hashCode();
+	int hash1 = list1.hashCode();
 
 	// Assert
 	assertEquals(hash, hash1);
     }
 
-    @Test
-    public void hashCode_shouldReturnSameCode_forEqualLinkedList() {
+    @Test(dataProvider = "lists")
+    public void hashCodeShouldReturnDifferenetCodeForDifferentLists(GenericList<Integer> list, GenericList<Integer> list1) {
+	//Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	for (Integer integer : list) {
+	    list1.add(integer);
+	}
+	list.add(ThreadLocalRandom.current().nextInt());
+	
 	// Act
-	int hash = lList.hashCode();
-	int hash1 = lList1.hashCode();
+	int hash = list.hashCode();
+	int hash1 = list1.hashCode();
 
 	// Assert
-	assertEquals(hash, hash1);
+	assertNotEquals(hash, hash1);
     }
 }

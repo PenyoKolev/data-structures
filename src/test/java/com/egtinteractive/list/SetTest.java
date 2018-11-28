@@ -9,58 +9,77 @@ import static org.testng.Assert.assertEquals;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 
 @Test(groups = "list-tests")
 public class SetTest extends Generator {
 
-    GenericList<Integer> aList;
-    GenericList<Integer> lList;
-
-    @BeforeClass
-    public void beforeClass() {
-	aList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, aList);
-	lList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, lList);
+    @DataProvider(name = "lists")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericArrayList<>() }, { new GenericLinkedList<>() }, };
     }
 
-    @Test
-    public void set_shouldReplaceOldElement() {
+    @Test(dataProvider = "lists")
+    public void setShouldReplaceOldElement(GenericList<Integer> list) {
 	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
 	int element = ThreadLocalRandom.current().nextInt();
-	int index = ThreadLocalRandom.current().nextInt(0, 9);
-
+	int index;
+	/**
+	 * If size = 1, index should be 0, but second parameter in nextInt should be
+	 * strictly greater;
+	 */
+	if (size == 1) {
+	    index = 0;
+	} else {
+	    index = ThreadLocalRandom.current().nextInt(0, size - 1);
+	}
+	
 	// Act
-	aList.set(index, element);
-	int result = aList.get(index);
+	list.set(index, element);
+	int result = list.get(index);
 
 	// Assert
 	assertEquals(result, element);
     }
     
-    @Test
-    public void set_shouldNot_increaseSize() {
+    @Test(dataProvider = "lists")
+    public void setShouldNotIncreaseSize(GenericList<Integer> list) {
 	// Arrange
-	int expectedSize = aList.size();
-	int index = ThreadLocalRandom.current().nextInt(0, 9);
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
 	int element = ThreadLocalRandom.current().nextInt();
-
+	int index;
+	/**
+	 * If size = 1, index should be 0, but second parameter in nextInt should be
+	 * strictly greater;
+	 */
+	if (size == 1) {
+	    index = 0;
+	} else {
+	    index = ThreadLocalRandom.current().nextInt(0, size - 1);
+	}
+	int expectedSize = list.size();
+	
 	// Act
-	aList.set(index, element);
-	int size = aList.size();
+	list.set(index, element);
+	int ListSize = list.size();
 
 	// Assert
-	assertEquals(size, expectedSize);
+	assertEquals(ListSize, expectedSize);
 
     }
     
-    @Test(expectedExceptions = IndexOutOfBoundsException.class)
-    public void set_shouldThrowException_ifNonValidIndex() {
+    @Test(dataProvider = "lists", expectedExceptions = IndexOutOfBoundsException.class)
+    public void setShouldThrowExceptionIfNonValidIndex(GenericList<Integer> list) {
 	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
 	int element = ThreadLocalRandom.current().nextInt();
 
 	// Act
-	aList.set(-1, element);
+	list.set(-1, element);
     }
 
 }

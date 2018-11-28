@@ -1,5 +1,6 @@
 package com.egtinteractive.list;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
@@ -11,35 +12,39 @@ import java.util.concurrent.ThreadLocalRandom;
 @Test(groups = "list-tests")
 public class SizeTest extends Generator {
 
-    GenericList<Integer> aList;
-    GenericList<Integer> lList;
-
-    @Test
-    public void size_shouldReturn_numberOfElements() {
-	// Arrange
-	aList = new GenericArrayList<Integer>();
-	int size = ThreadLocalRandom.current().nextInt(0, 100);
-	fillListWithIntegers(size, aList);
-
-	// Act
-	int expectedSize = aList.size();
-
-	// Assert
-	assertEquals(size, expectedSize);
+    @DataProvider(name = "lists")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericArrayList<>() }, { new GenericLinkedList<>() }, };
     }
 
-    @Test
-    public void size_shouldReturnZero_ifListIsEmpty() {
+    @Test(dataProvider = "lists")
+    public void sizeShouldReturnNumberOfElements(GenericList<Integer> list) {
 	// Arrange
-	aList = new GenericArrayList<Integer>();
-	int size = ThreadLocalRandom.current().nextInt(0, 100);
-	fillListWithIntegers(size, aList);
-	aList.clear();
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	int numberOfElements = 0;
+	for (Integer integer : list) {
+	    numberOfElements++;
+	}
 
 	// Act
-	int expectedSize = aList.size();
+	int expectedSize = list.size();
 
 	// Assert
-	assertEquals(0, expectedSize);
+	assertEquals(expectedSize, numberOfElements);
+    }
+
+    @Test(dataProvider = "lists")
+    public void sizeShouldReturnZeroIfListIsEmpty(GenericList<Integer> list) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	list.clear();
+
+	// Act
+	int expectedSize = list.size();
+
+	// Assert
+	assertEquals(expectedSize, 0);
     }
 }

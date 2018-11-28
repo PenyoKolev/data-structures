@@ -6,53 +6,32 @@ import com.egtinteractive.Generator;
 
 import static org.testng.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
+@Test(groups = "list-tests")
 public class IteratorTest extends Generator {
 
-    GenericList<Integer> aList;
-    GenericList<Integer> lList;
-
-    @BeforeMethod
-    public void beforeClass() {
-	aList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, aList);
-	lList = new GenericArrayList<Integer>();
-	fillListWithIntegers(10, lList);
+    @DataProvider(name = "lists")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericArrayList<>() }, { new GenericLinkedList<>() }, };
     }
 
-    @Test
-    public void iterator_shouldIterateOverAllElements_onArrayList() {
+    @Test(dataProvider = "lists")
+    public void iteratorShouldIterateOverAllElementsOnList(GenericList<Integer> list) {
 	//Arrange
-	int size = aList.size();
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
 	int iteration = 0;
 	
 	//Act
-	for (Integer integer : aList) {
+	for (Integer integer : list) {
 	    iteration++;
 	}
 	
 	//Assert
 	assertEquals(iteration, size);
-	
-    }
-    
-    @Test
-    public void iterator_shouldIterateOverAllElements_onLinkedList() {
-	//Arrange
-	int size = lList.size();
-	int iteration = 0;
-	
-	//Act
-	for (Integer integer : lList) {
-	    iteration++;
-	}
-	
-	//Assert
-	assertEquals(iteration, size);
-	
     }
 }

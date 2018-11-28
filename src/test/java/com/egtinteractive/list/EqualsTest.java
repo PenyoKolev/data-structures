@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.DataProvider;
 
+@Test(groups = "list-tests")
 public class EqualsTest extends Generator {
     
     @DataProvider(name = "lists")
