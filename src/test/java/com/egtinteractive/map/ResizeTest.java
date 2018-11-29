@@ -25,7 +25,7 @@ public class ResizeTest extends Generator {
 	int key = ThreadLocalRandom.current().nextInt();
 	String value = UUID.randomUUID().toString();
 	map.put(key, value);
-	fillMapWithString(9, map);
+	fillMapWithString(ThreadLocalRandom.current().nextInt(10, 100), map);
 
 	// Act
 	map.put(ThreadLocalRandom.current().nextInt(), UUID.randomUUID().toString());

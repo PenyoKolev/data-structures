@@ -1,5 +1,9 @@
 package com.egtinteractive.map;
 
+import java.util.Iterator;
+
+import com.egtinteractive.map.GenericMap.Node;
+
 public interface Map<K, V> extends Iterable<GenericMap.Node<K, V>> {
 
     V get(K key); // returns the value to which the specified key is mapped, or null if this map
@@ -18,5 +22,7 @@ public interface Map<K, V> extends Iterable<GenericMap.Node<K, V>> {
     int size(); // returns the number of key-value mappings in this map;
 
     void clear(); // removes all of the mappings from this map;
+
+    Iterator<Node<K, V>> iterator();
 
 }

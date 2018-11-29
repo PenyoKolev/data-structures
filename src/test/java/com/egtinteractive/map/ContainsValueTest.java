@@ -6,23 +6,24 @@ import static org.testng.Assert.assertTrue;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 
+@Test(groups = "map-tests")
 public class ContainsValueTest extends Generator {
-    GenericMap<Integer, String> map;
 
-    @BeforeClass
-    public void beforeClass() {
-	map = new GenericMap<>();
-	fillMapWithString(10, map);
+    @DataProvider(name = "maps")
+    public Object[][] createData() {
+	return new Object[][] { { new GenericMap<>() } };
     }
 
-    @Test
-    public void containsValue_shouldReturnTrue_ifValueMappedToKey() {
+    @Test(dataProvider = "maps")
+    public void containsValueShouldReturnTrueIfSuchValue(Map<Integer, String> map) {
 	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
 	int key = ThreadLocalRandom.current().nextInt();
 	String value = UUID.randomUUID().toString();
 	map.put(key, value);
@@ -33,10 +34,12 @@ public class ContainsValueTest extends Generator {
 	// Assert
 	assertTrue(result);
     }
-    
-    @Test
-    public void containsValue_shouldReturnFalse_ifValueNotMappedToKey() {
+
+    @Test(dataProvider = "maps")
+    public void containsValueShouldReturnFalseIfNoSuchValue(Map<Integer, String> map) {
 	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
 	int key = ThreadLocalRandom.current().nextInt();
 	String value = UUID.randomUUID().toString();
 	map.put(key, value);
