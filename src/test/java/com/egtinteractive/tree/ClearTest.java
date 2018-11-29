@@ -4,11 +4,10 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertEquals;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
 /**		       	Tree example:	
  *				
@@ -25,24 +24,22 @@ import org.testng.annotations.BeforeMethod;
  *					  95
  */
 
+@Test(groups = "tree-tests")
 public class ClearTest extends Generator {
 
-    Tree<Integer> tree;
-
-    @BeforeMethod
-    public void beforeClass() {
-	tree = new BinaryTree<>();
-	fillTreeWithIntegers(tree);
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>() } };
     }
 
-  @Test
-  public void clear_shouldRemoveAllElements() {
-      //Act
-      tree.clear();
-      int size = tree.size();
-      
-      //Assert
-      assertEquals(size, 0);
-  }
+    @Test(dataProvider = "trees")
+    public void clearShouldRemoveAllElements(BinaryTree<Integer> tree) {
+	// Act
+	fillTreeWithIntegers(tree);
+	tree.clear();
+	int size = tree.size();
 
+	// Assert
+	assertEquals(size, 0);
+    }
 }

@@ -4,14 +4,13 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNull;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
 /**		       	Tree example:	
  *				
@@ -28,28 +27,28 @@ import org.testng.annotations.BeforeMethod;
  *					  95
  */
 
+@Test(groups = "tree-tests")
 public class PollLastTest extends Generator {
 
-    Tree<Integer> tree;
-
-    @BeforeMethod
-    public void beforeClass() {
-	tree = new BinaryTree<>();
-	fillTreeWithIntegers(tree);
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>() } };
     }
 
-    @Test
-    public void pollLast_shouldReturnGreatestElement() {
+    @Test(dataProvider = "trees")
+    public void pollLastShouldReturnGreatestElement(BinaryTree<Integer> tree) {
 	// Act
+	fillTreeWithIntegers(tree);
 	int greatest = tree.pollLast();
 
 	// Assert
 	assertEquals(greatest, 95);
     }
 
-    @Test
-    public void pollLast_shouldDeleteGreatestElement() {
+    @Test(dataProvider = "trees")
+    public void pollLastShouldDeleteGreatestElement(BinaryTree<Integer> tree) {
 	// Arrange
+	fillTreeWithIntegers(tree);
 	int greatest = 95;
 
 	// Act
@@ -59,18 +58,20 @@ public class PollLastTest extends Generator {
 	assertFalse(tree.contains(greatest));
     }
 
-    @Test
-    public void pollLast_shouldReturnNull_ifTreeIsEmpty() {
+    @Test(dataProvider = "trees")
+    public void pollLastShouldReturnNullIfTreeIsEmpty(BinaryTree<Integer> tree) {
 	// Arrange
+	fillTreeWithIntegers(tree);
 	tree.clear();
 
 	// Assert
 	assertNull(tree.pollLast());
     }
 
-    @Test
-    public void pollLast_shouldDecreaseSize() {
+    @Test(dataProvider = "trees")
+    public void pollLastShouldDecreaseSize(BinaryTree<Integer> tree) {
 	// Arrange
+	fillTreeWithIntegers(tree);
 	int size = tree.size();
 
 	// Act

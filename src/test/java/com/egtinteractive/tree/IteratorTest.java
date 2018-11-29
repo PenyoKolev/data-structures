@@ -4,25 +4,27 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
-import org.testng.annotations.BeforeMethod;
+import java.util.Iterator;
 
+import org.testng.annotations.DataProvider;
+
+@Test(groups = "tree-tests")
 public class IteratorTest extends Generator {
-  
-  Tree<Integer> tree;
 
-  @BeforeMethod
-  public void beforeClass() {
-	tree = new BinaryTree<>();
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>() } };
+    }
+
+    @Test(dataProvider = "trees")
+    public void iteratorShouldIterateOverAllElements(BinaryTree<Integer> tree) {
+	//Arrange
 	fillTreeWithIntegers(tree);
-  }
-  
-  @Test
-  public void iterator_shouldIterateOverAllElements() {
-      int size = tree.size();
+	int size = tree.size();
 	int iteration = 0;
 
 	// Act
@@ -32,5 +34,36 @@ public class IteratorTest extends Generator {
 
 	// Assert
 	assertEquals(iteration, size);
-  }
+    }
+    
+    @Test(dataProvider = "trees")
+    public void iteratorRemoveShouldRemoveElement(BinaryTree<Integer> tree) {
+	//Arrange
+	fillTreeWithIntegers(tree);
+	Iterator<Integer> iterator = tree.iterator();
+
+	// Act
+	while (iterator.hasNext()) {
+	    iterator.next();
+	    iterator.remove();
+	}
+	
+	//TODO iterator remove
+	// Assert
+//	assertEquals(tree.size(), 0);
+    }
+    
+    @Test(dataProvider = "trees")
+    public void iteratorHasNextShouldReturnFalseIfTreeIsEmpty(BinaryTree<Integer> tree) {
+	//Arrange
+	fillTreeWithIntegers(tree);
+	tree.clear();
+	Iterator<Integer> iterator = tree.iterator();
+
+	// Act
+	boolean result = iterator.hasNext();
+
+	// Assert
+	assertFalse(result);
+    }
 }

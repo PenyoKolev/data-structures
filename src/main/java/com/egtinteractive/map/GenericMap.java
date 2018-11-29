@@ -210,7 +210,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 
 	    result = 31 * result + (hashKey + hashValue);
 	}
-	return result;
+	return result + Objects.hashCode(size);
     }
 
     // Helpers

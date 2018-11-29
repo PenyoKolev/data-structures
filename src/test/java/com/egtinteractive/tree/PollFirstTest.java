@@ -4,14 +4,14 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNull;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+
 /**		       	Tree example:	
  *				
  *				38
@@ -27,28 +27,28 @@ import org.testng.annotations.BeforeMethod;
  *					  95
  */
 
+@Test(groups = "tree-tests")
 public class PollFirstTest extends Generator {
 
-    Tree<Integer> tree;
-
-    @BeforeMethod
-    public void beforeClass() {
-	tree = new BinaryTree<>();
-	fillTreeWithIntegers(tree);
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>() } };
     }
 
-    @Test
-    public void pollFirst_shouldReturnSmallestElement() {
+    @Test(dataProvider = "trees")
+    public void pollFirstShouldReturnSmallestElement(BinaryTree<Integer> tree) {
 	//Act
+	fillTreeWithIntegers(tree);
 	int smallest = tree.pollFirst();
 	
 	//Assert
 	assertEquals(smallest, 10);
     }
     
-    @Test
-    public void pollFirst_shouldDeleteSmallestElement() {
+    @Test(dataProvider = "trees")
+    public void pollFirstShouldDeleteSmallestElement(BinaryTree<Integer> tree) {
 	//Arrange
+	fillTreeWithIntegers(tree);
 	int smallest = 10;
 	
 	//Act
@@ -58,18 +58,20 @@ public class PollFirstTest extends Generator {
 	assertFalse(tree.contains(smallest));
     }
     
-    @Test
-    public void pollFirst_shouldReturnNull_ifTreeIsEmpty() {
+    @Test(dataProvider = "trees")
+    public void pollFirstShouldReturnNullIfTreeIsEmpty(BinaryTree<Integer> tree) {
 	//Arrange
+	fillTreeWithIntegers(tree);
 	tree.clear();
 	
 	//Assert
 	assertNull(tree.pollFirst());
     }
     
-    @Test
-    public void pollFirst_shouldDecreaseSize() {
+    @Test(dataProvider = "trees")
+    public void pollFirstShouldDecreaseSize(BinaryTree<Integer> tree) {
 	//Arrange
+	fillTreeWithIntegers(tree);
 	int size = tree.size();
 	
 	//Act

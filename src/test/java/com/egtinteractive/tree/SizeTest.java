@@ -4,11 +4,10 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertEquals;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
 /**		       	Tree example:	
  *				
@@ -25,19 +24,18 @@ import org.testng.annotations.BeforeMethod;
  *					  95
  */
 
+@Test(groups = "tree-tests")
 public class SizeTest extends Generator {
 
-    Tree<Integer> tree;
-
-    @BeforeMethod
-    public void beforeClass() {
-	tree = new BinaryTree<>();
-	fillTreeWithIntegers(tree);
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>() } };
     }
 
-    @Test
-    public void add_shouldReturnSize() {
+    @Test(dataProvider = "trees")
+    public void addСhouldReturnSize(BinaryTree<Integer> tree) {
 	//Arrange
+	fillTreeWithIntegers(tree);
 	int realSize = 12;
 	
 	// Act

@@ -4,12 +4,11 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
 /**		       	Tree example:	
  *				
@@ -26,19 +25,18 @@ import org.testng.annotations.BeforeMethod;
  *					  95
  */
 
+@Test(groups = "tree-tests")
 public class LowerTest extends Generator {
 
-    Tree<Integer> tree;
-
-    @BeforeMethod
-    public void beforeClass() {
-	tree = new BinaryTree<>();
-	fillTreeWithIntegers(tree);
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>() } };
     }
 
-    @Test
-    public void lower_shouldReturnLowerElement_ifExist() {
+    @Test(dataProvider = "trees")
+    public void lowerShouldReturnLowerElementIfExist(BinaryTree<Integer> tree) {
 	// Arrange
+	fillTreeWithIntegers(tree);
 	int node = 38;
 
 	// Act
@@ -48,9 +46,10 @@ public class LowerTest extends Generator {
 	assertEquals(37, lower);
     }
     
-    @Test
-    public void lower_shouldReturnNull_ifNoSuchElement() {
+    @Test(dataProvider = "trees")
+    public void lowerShouldReturnNullIfNoSuchElement(BinaryTree<Integer> tree) {
 	// Arrange
+	fillTreeWithIntegers(tree);
 	int node = 10;
 
 	// Assert

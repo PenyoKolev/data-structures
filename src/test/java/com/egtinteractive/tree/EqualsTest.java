@@ -4,14 +4,13 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
 /**		       	Tree example:	
  *				
@@ -28,23 +27,22 @@ import org.testng.annotations.BeforeMethod;
  *					  95
  */
 
+@Test(groups = "tree-tests")
 public class EqualsTest extends Generator {
 
-    Tree<Integer> tree;
-    Tree<Integer> tree1;
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>(), new BinaryTree<>() } };
+    }
 
-    @BeforeMethod
-    public void beforeClass() {
-	tree = new BinaryTree<>();
-	tree1 = new BinaryTree<>();
+    @Test(dataProvider = "trees")
+    public void equalsShouldReturnTrueIfTreesAreEquals(BinaryTree<Integer> tree, BinaryTree<Integer> tree1) {
+	//Arrange
 	fillTreeWithIntegers(tree);
 	for (Integer integer : tree) {
 	    tree1.add(integer);
 	}
-    }
 
-    @Test
-    public void equals_shouldReturnTrue_ifTreesAreEquals() {
 	//Act
 	boolean isEqual = tree.equals(tree1);
 	
@@ -52,9 +50,13 @@ public class EqualsTest extends Generator {
 	assertTrue(isEqual);
     }
     
-    @Test
-    public void equals_shouldReturnFalse_ifTreesAreNotEquals() {
+    @Test(dataProvider = "trees")
+    public void equalsShouldReturnFalseIfTreesAreNotEquals(BinaryTree<Integer> tree, BinaryTree<Integer> tree1) {
 	//Arrange
+	fillTreeWithIntegers(tree);
+	for (Integer integer : tree) {
+	    tree1.add(integer);
+	}
 	tree.add(ThreadLocalRandom.current().nextInt(100, 200));
 	
 	//Act

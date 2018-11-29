@@ -4,14 +4,13 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
 /**		       	Tree example:	
  *				
@@ -28,19 +27,18 @@ import org.testng.annotations.BeforeMethod;
  *					  95
  */
 
+@Test(groups = "tree-tests")
 public class ContainsTest extends Generator {
 
-    Tree<Integer> tree;
-
-    @BeforeMethod
-    public void beforeClass() {
-	tree = new BinaryTree<>();
-	fillTreeWithIntegers(tree);
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>() } };
     }
 
-    @Test
-    public void contains_shouldReturnTrue_ifPresent() {
+    @Test(dataProvider = "trees")
+    public void containsShouldReturnTrueIfPresent(BinaryTree<Integer> tree) {
 	// Arrange
+	fillTreeWithIntegers(tree);
 	int random = ThreadLocalRandom.current().nextInt(0, 100);
 	tree.add(random);
 	
@@ -51,9 +49,10 @@ public class ContainsTest extends Generator {
 	assertTrue(isPresent);
     }
     
-    @Test
-    public void contains_shouldReturnFalse_ifNotPresent() {
+    @Test(dataProvider = "trees")
+    public void containsShouldReturnFalseIfNotPresent(BinaryTree<Integer> tree) {
 	// Arrange
+	fillTreeWithIntegers(tree);
 	tree.remove(12);
 	
 	// Act

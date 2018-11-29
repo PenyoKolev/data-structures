@@ -2,6 +2,7 @@ package com.egtinteractive.binarytree;
 
 import java.util.ArrayDeque;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Queue;
 
 public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
@@ -43,7 +44,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	int sizeBefore = size;
 	delete(root, element);
 	size--;
-	return sizeBefore > size ? true : false;
+	return sizeBefore > size;
     }
 
     private Node<T> delete(Node<T> current, T value) {
@@ -215,7 +216,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
 	@Override
 	public void remove() {
-	    tree.remove(last.getValue());
+	    //TODO implement remove
 	}
     }
 
@@ -252,7 +253,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	while (it.hasNext()) {
 	    result = result * 31 + it.next().hashCode();
 	}
-	return result;
+	return result + Objects.hashCode(size);
     }
 
     // Helpers

@@ -4,16 +4,12 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNull;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
 /**		       	Tree example:	
  *				
@@ -30,20 +26,20 @@ import org.testng.annotations.BeforeMethod;
  *					  95
  */
 
+@Test(groups = "tree-tests")
 public class RemoveTest extends Generator {
 
-    Tree<Integer> tree;
-
-    @BeforeMethod
-    public void beforeClass() {
-	tree = new BinaryTree<>();
-	fillTreeWithIntegers(tree);
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>() } };
     }
 
-    @Test
-    public void remove_leafNode_shouldDeleteNode() {
+    @Test(dataProvider = "trees")
+    public void removeLeafNodeShouldDeleteNode(BinaryTree<Integer> tree) {
 	//Arrange
+	fillTreeWithIntegers(tree);
 	int leaf = 12;
+	
 	//Act
 	tree.remove(leaf);
 	
@@ -51,11 +47,11 @@ public class RemoveTest extends Generator {
 	assertFalse(tree.contains(leaf));
     }
     
-    @Test
-    public void remove_nodeWithOneChild_shouldDeleteNode() {
+    @Test(dataProvider = "trees")
+    public void removeNodeWithOneChildShouldDeleteNode(BinaryTree<Integer> tree) {
 	//Arrange
+	fillTreeWithIntegers(tree);
 	int node = 10;
-	int lower = tree.lower(12);  // 10
 	
 	//Act
 	tree.remove(node);
@@ -64,9 +60,10 @@ public class RemoveTest extends Generator {
 	assertNull(tree.lower(12));
     }
     
-    @Test
-    public void remove_nodeWithTwoChild_shouldDeleteNode() {
+    @Test(dataProvider = "trees")
+    public void removeNodeWithTwoChildShouldDeleteNode(BinaryTree<Integer> tree) {
 	//Arrange
+	fillTreeWithIntegers(tree);
 	int node = 38;
 	
 	//Act
@@ -75,18 +72,5 @@ public class RemoveTest extends Generator {
 	
 	//Assert
 	assertEquals(lower, 40);
-    }
-    
-    @Test
-    public void remove_shouldDecreaseSize() {
-	// Arrange
-	int random = ThreadLocalRandom.current().nextInt(0, 100);
-	int size = tree.size();
-
-	// Act
-	tree.add(random);
-
-	// Assert
-	assertNotEquals(size, tree.size());
     }
 }

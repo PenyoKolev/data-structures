@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
@@ -12,7 +11,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 
 /**		       	Tree example:	
  *				
@@ -29,20 +28,18 @@ import org.testng.annotations.BeforeMethod;
  *					  95
  */
 
+@Test(groups = "tree-tests")
 public class AddTest extends Generator {
 
-
-    Tree<Integer> tree;
-
-    @BeforeMethod
-    public void beforeClass() {
-	tree = new BinaryTree<>();
-	fillTreeWithIntegers(tree);
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>() } };
     }
 
-    @Test
-    public void add_shouldAddElement() {
+    @Test(dataProvider = "trees")
+    public void addShouldAddElement(BinaryTree<Integer> tree) {
 	// Arrange
+	fillTreeWithIntegers(tree);
 	int random = ThreadLocalRandom.current().nextInt(0, 100);
 
 	// Act
@@ -53,9 +50,10 @@ public class AddTest extends Generator {
 
     }
 
-    @Test
-    public void add_shouldIncreaseSize() {
+    @Test(dataProvider = "trees")
+    public void addShouldIncreaseSize(BinaryTree<Integer> tree) {
 	// Arrange
+	fillTreeWithIntegers(tree);
 	int random = ThreadLocalRandom.current().nextInt(0, 100);
 	int size = tree.size();
 
@@ -66,9 +64,10 @@ public class AddTest extends Generator {
 	assertNotEquals(size, tree.size());
     }
 
-    @Test
-    public void add_shouldNotIncreaseSize_ifElementAlreadyExist() {
+    @Test(dataProvider = "trees")
+    public void addShouldNotIncreaseSizeIfElementAlreadyExist(BinaryTree<Integer> tree) {
 	// Arrange
+	fillTreeWithIntegers(tree);
 	int size = tree.size();
 
 	// Act

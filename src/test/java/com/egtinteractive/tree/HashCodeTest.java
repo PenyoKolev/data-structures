@@ -4,11 +4,13 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
-import com.egtinteractive.binarytree.Tree;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
-import org.testng.annotations.BeforeMethod;
+import java.util.concurrent.ThreadLocalRandom;
+
+import org.testng.annotations.DataProvider;
 
 /**		       	Tree example:	
  *				
@@ -25,28 +27,44 @@ import org.testng.annotations.BeforeMethod;
  *					  95
  */
 
+@Test(groups = "tree-tests")
 public class HashCodeTest extends Generator {
 
-    Tree<Integer> tree;
-    Tree<Integer> tree1;
+    @DataProvider(name = "trees")
+    public Object[][] createData() {
+	return new Object[][] { { new BinaryTree<>(), new BinaryTree<>() } };
+    }
 
-    @BeforeMethod
-    public void beforeClass() {
-	tree = new BinaryTree<>();
-	tree1 = new BinaryTree<>();
+    @Test(dataProvider = "trees")
+    public void hashCodeShouldReturnSameCodeForEqualTrees(BinaryTree<Integer> tree, BinaryTree<Integer> tree1) {
+	//Arrange
 	fillTreeWithIntegers(tree);
 	for (Integer integer : tree) {
 	    tree1.add(integer);
 	}
-    }
-
-    @Test
-    public void hashCode_shouldReturnSameCode_forEqualTrees() {
+	
 	// Act
 	int hash = tree.hashCode();
 	int hash1 = tree1.hashCode();
 
 	// Assert
 	assertEquals(hash, hash1);
+    }
+    
+    @Test(dataProvider = "trees")
+    public void hashCodeShouldDifferentCodeForDifferentTrees(BinaryTree<Integer> tree, BinaryTree<Integer> tree1) {
+	//Arrange
+	fillTreeWithIntegers(tree);
+	for (Integer integer : tree) {
+	    tree1.add(integer);
+	}
+	tree.add(ThreadLocalRandom.current().nextInt(100, 200));
+
+	// Act
+	int hash = tree.hashCode();
+	int hash1 = tree1.hashCode();
+
+	// Assert
+	assertNotEquals(hash, hash1);
     }
 }
