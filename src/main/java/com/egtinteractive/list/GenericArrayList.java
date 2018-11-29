@@ -64,23 +64,20 @@ public class GenericArrayList<T> implements GenericList<T> {
     }
 
     @Override
-    public boolean remove(T element) {   // Check with Ivailo(if list of integers no difference entre element and index)
+    public boolean remove(T element) {
 	int index = indexOf(element);
 	if (index == -1) {
 	    return false;
 	}
-	return remove(index);
+	System.arraycopy(array, index + 1, array, index, size - index - 1);
+	size--;
+	return true;
     }
 
     @Override
-    public boolean remove(int index) {    // Check with Ivailo
+    public boolean remove(int index) {
 	if (isNotValid(index)) {
-	    for (int i = 0; i < size; i++) {
-		if (index == (int) array[i]) {
-		    return remove(i);
-		}
-	    }
-	    return false;
+	    throw new IndexOutOfBoundsException(message(index));
 	}
 	System.arraycopy(array, index + 1, array, index, size - index - 1);
 	size--;
@@ -94,10 +91,7 @@ public class GenericArrayList<T> implements GenericList<T> {
 
     @Override
     public int indexOf(T element) {
-	int index = IntStream.range(0, array.length)
-		.filter(i -> element.equals(array[i]))
-		.findFirst()
-		.orElse(-1);
+	int index = IntStream.range(0, array.length).filter(i -> element.equals(array[i])).findFirst().orElse(-1);
 	return index;
     }
 
@@ -145,8 +139,8 @@ public class GenericArrayList<T> implements GenericList<T> {
     public int hashCode() {
 	Iterator<T> it = iterator();
 	int result = 17;
-	
-	while(it.hasNext()) {
+
+	while (it.hasNext()) {
 	    result = 31 * result + Objects.hashCode(it.next());
 	}
 	return result + Objects.hashCode(size);
@@ -154,27 +148,26 @@ public class GenericArrayList<T> implements GenericList<T> {
 
     // Helpers
     private class ListIterator implements Iterator<T> {
-	private int current = 0;
+	private int current = - 1;
 
 	@Override
 	public boolean hasNext() {
-	    return current < size;
+	    return current < size - 1;
 	}
 
 	@Override
 	public T next() {
 	    if (hasNext()) {
-		return array[current++];
+		return array[++current];
 	    } else {
 		throw new NoSuchElementException("No next element!");
 	    }
 	}
-	
+
 	@Override
 	public void remove() {
-	    if (isNotValid(current)) {
-		GenericArrayList.this.remove(current);
-		current--;
+	    if (!isNotValid(current)) {
+		GenericArrayList.this.remove(current--);
 	    }
 	}
     }
@@ -189,7 +182,7 @@ public class GenericArrayList<T> implements GenericList<T> {
     private boolean isNotValid(int index) {
 	return index < 0 || index > size - 1;
     }
-    
+
     private String message(int index) {
 	return String.format("\nIndex: %d out of bound!\nShould be in a range of 0 to %d", index, size - 1);
     }

@@ -167,8 +167,11 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     // Helpers
+
     private class MyIterator implements Iterator<T> {
 	Node<T> current = head;
+	Node<T> previous = null;
+	boolean canRemove = false;
 
 	@Override
 	public boolean hasNext() {
@@ -177,18 +180,18 @@ public class GenericLinkedList<T> implements GenericList<T> {
 
 	@Override
 	public T next() {
-	    T element = current.data;
+	    previous = current;
 	    current = current.next;
-	    return element;
+	    return previous.data;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void remove() {
-	    if (head == null || current == null) {
-		throw new IllegalStateException("No such node");
+	    if (canRemove) {
+		previous.next = current.next;
+		canRemove = false;
 	    }
-	    GenericLinkedList.this.remove((T) current);
+		size--;
 	}
     }
 
