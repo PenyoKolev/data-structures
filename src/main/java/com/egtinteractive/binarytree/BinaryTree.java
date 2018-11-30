@@ -14,7 +14,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	GET_LEFT, GET_RIGHT;
     }
 
-    private class Node<T> {
+    private static class Node<T> {
 	private T value;
 	private Node<T> left;
 	private Node<T> right;

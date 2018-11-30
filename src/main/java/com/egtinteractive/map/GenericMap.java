@@ -9,7 +9,7 @@ public class GenericMap<K, V> implements Map<K, V> {
     private int size;
     private static final int INITIAL_CAPACITY = 10;
 
-    public static class Node<K, V> {
+    static class Node<K, V> {
 
 	private K key;
 	private V value;
