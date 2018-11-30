@@ -147,7 +147,8 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	Iterator<T> it1 = iterator();
 	Iterator<?> it2 = list.iterator();
 
-	while (--size >= 0) {
+	int index = size;
+	while (--index >= 0) {
 	    if (!Objects.equals(it1.next(), it2.next())) {
 		return false;
 	    }
@@ -191,7 +192,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
 		previous.next = current.next;
 		canRemove = false;
 	    }
-		size--;
+	    size--;
 	}
     }
 

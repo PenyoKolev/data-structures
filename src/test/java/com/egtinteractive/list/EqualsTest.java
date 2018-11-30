@@ -77,6 +77,9 @@ public class EqualsTest extends Generator {
 	for (Integer integer : list) {
 	    list1.add(integer);
 	}
+	boolean equals = list.equals(list1);
+
+	assertTrue(equals);
 
 	int index;
 	/**
@@ -92,9 +95,9 @@ public class EqualsTest extends Generator {
 	list.set(index, element);
 
 	// Act
-	boolean equals = list.equals(list1);
+	boolean equals1 = list.equals(list1);
 
 	// Assert
-	assertFalse(equals);
+	assertFalse(equals1);
     }
 }
