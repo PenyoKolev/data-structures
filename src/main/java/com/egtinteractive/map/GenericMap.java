@@ -54,7 +54,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 	} else {
 	    Node<K, V> temp = entries[index];
 	    while (temp != null) {
-		if (temp.getKey().equals(key)) {
+		if (Objects.equals(temp.getKey(), key)) {
 		    return temp.getValue();
 		}
 		temp = temp.getNext();
@@ -71,7 +71,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 	int index = hash(key, entries.length);
 	Node<K, V> node = entries[index];
 	if (node != null) {
-	    if (node.getKey().equals(key)) {
+	    if (Objects.equals(node.getKey(), key)) {
 		node.setValue(value);
 		return value;
 	    } else {
@@ -99,7 +99,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 	if (node != null) {
 	    Node<K, V> previous = null;
 	    while (node != null) {
-		if (node.getKey().equals(key)) {
+		if (Objects.equals(node.getKey(), key)) {
 		    if (previous == null) {
 			V value = entries[index].getValue();
 			entries[index] = entries[index].getNext();
@@ -124,7 +124,7 @@ public class GenericMap<K, V> implements Map<K, V> {
 	int index = hash(key, entries.length);
 	Node<K, V> temp = entries[index];
 	while (temp != null) {
-	    if (temp.getKey().equals(key)) {
+	    if (Objects.equals(temp.getKey(), key)) {
 		return true;
 	    }
 	    temp = temp.getNext();
@@ -136,7 +136,7 @@ public class GenericMap<K, V> implements Map<K, V> {
     public boolean containsValue(V value) {
 	for (Node<K, V> node : entries) {
 	    while (node != null) {
-		if (node.getValue().equals(value)) {
+		if (Objects.equals(node.getValue(), value)) {
 		    return true;
 		}
 		node = node.getNext();
@@ -187,11 +187,10 @@ public class GenericMap<K, V> implements Map<K, V> {
 	    if (!newMap.containsKey(current.getKey())) {
 		return false;
 	    }
-	    if (!current.getValue().equals(newMap.get(current.getKey()))) {
+	    if (!Objects.equals(current.getValue(), newMap.get(current.getKey()))) {
 		return false;
 	    }
 	}
-
 	return true;
     }
 
@@ -272,7 +271,6 @@ public class GenericMap<K, V> implements Map<K, V> {
     }
 
     private int hash(K key, int size) {
-	return Math.abs(key.hashCode()) % entries.length;
+	return key != null? Math.abs(key.hashCode()) % entries.length : 0;
     }
-
 }

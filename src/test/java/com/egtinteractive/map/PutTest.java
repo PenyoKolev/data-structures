@@ -48,4 +48,32 @@ public class PutTest extends Generator {
 	//Assert
 	assertEquals(value, expected);
     }
+    
+    @Test(dataProvider = "maps")
+    public void putWithKeyNull(Map<Integer, String> map) {
+	//Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
+	String value = UUID.randomUUID().toString();
+	
+	//Act
+	String expected = map.put(null, value);
+	
+	//Assert
+	assertEquals(value, expected);
+    }
+    
+    @Test(dataProvider = "maps")
+    public void putWithValueNull(Map<Integer, String> map) {
+	//Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
+	int key = ThreadLocalRandom.current().nextInt();
+	
+	//Act
+	String expected = map.put(key, null);
+	
+	//Assert
+	assertEquals(null, expected);
+    }
 }

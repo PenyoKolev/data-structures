@@ -42,7 +42,6 @@ public class GetTest extends Generator {
 	// Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
 	fillMapWithString(size, map);
-
 	int key = ThreadLocalRandom.current().nextInt();
 	String value = UUID.randomUUID().toString();
 	map.put(key, value);
@@ -53,6 +52,20 @@ public class GetTest extends Generator {
 
 	// Assert
 	assertNull(expected);
+    }
+    
+    @Test(dataProvider = "maps")
+    public void getShoulReturnNullIfValueIsNull(Map<Integer, String> map) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
+	int key = ThreadLocalRandom.current().nextInt();
+	map.put(key, null);
 
+	// Act
+	String expected = map.get(key);
+
+	// Assert
+	assertNull(expected);
     }
 }

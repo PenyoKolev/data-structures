@@ -52,4 +52,19 @@ public class ContainsKeyTest extends Generator {
 	// Assert
 	assertFalse(result);
     }
+    
+    @Test(dataProvider = "maps")
+    public void containsKeyShouldReturnTrueIfNullKey(Map<Integer, String> map) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
+	String value = UUID.randomUUID().toString();
+	map.put(null, value);
+	
+	// Act
+	boolean result = map.containsKey(null);
+
+	// Assert
+	assertTrue(result);
+    }
 }

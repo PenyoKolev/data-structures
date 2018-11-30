@@ -51,4 +51,19 @@ public class ContainsValueTest extends Generator {
 	// Assert
 	assertFalse(result);
     }
+    
+    @Test(dataProvider = "maps")
+    public void containsValueShouldReturnTrueIfNullValue(Map<Integer, String> map) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillMapWithString(size, map);
+	int key = ThreadLocalRandom.current().nextInt();
+	map.put(key, null);
+
+	// Act
+	boolean result = map.containsValue(null);
+
+	// Assert
+	assertTrue(result);
+    }
 }
