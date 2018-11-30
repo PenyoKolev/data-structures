@@ -9,7 +9,6 @@ import static org.testng.Assert.assertNull;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 
 @Test(groups = "list-tests")
@@ -53,5 +52,16 @@ public class GetTest extends Generator {
 
 	// Act
 	list.get(-1);
+    }
+    
+    @Test(dataProvider = "lists")
+    public void getShouldReturnNullIfElementIsNull(GenericList<Integer> list) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	list.add(0, null);
+
+	// Assert
+	assertNull(list.get(0));
     }
 }

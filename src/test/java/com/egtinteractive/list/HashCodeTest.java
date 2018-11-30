@@ -9,7 +9,6 @@ import static org.testng.Assert.assertNotEquals;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 
 @Test(groups = "list-tests")

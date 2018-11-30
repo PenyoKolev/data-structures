@@ -2,19 +2,24 @@ package com.egtinteractive;
 
 import com.egtinteractive.binarytree.BinaryTree;
 import com.egtinteractive.binarytree.Tree;
+import com.egtinteractive.list.GenericArrayList;
+import com.egtinteractive.list.GenericLinkedList;
+import com.egtinteractive.list.GenericList;
 
 public class DataStructureApp {
 
     public static void main(String[] args) {
 
-	int[] numbers = {38, 13, 51, 10, 12, 40, 84, 25, 89, 37, 66, 95};
-	Tree<Integer> tree = new BinaryTree<>();
-
-	for (Integer integer : numbers) {
-	    tree.add(integer);
-	}
+	GenericList<Integer> list = new GenericLinkedList<>();
+	list.add(1);
+	list.add(2);
+	list.add(3);
+	list.add(null);
 	
-	for (Integer integer : tree) {
+	list.set(0, null);
+	System.out.println(list.size());
+	
+	for (Integer integer : list) {
 	    System.out.println(integer);
 	}
     }

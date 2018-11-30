@@ -79,4 +79,19 @@ public class RemoveTest extends Generator {
 	assertNotEquals(list.size(), size);
 	
     }
+    
+    @Test(dataProvider = "lists")
+    public void removeShouldRemoveNullValue(GenericList<Integer> list) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	list.add(null);
+	int listSize = list.size();
+	
+	// Act
+	list.remove(null);
+
+	// Assert
+	assertNotEquals(list.size(), listSize);
+    }
 }

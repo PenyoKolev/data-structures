@@ -3,7 +3,6 @@ package com.egtinteractive.list;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 public class GenericArrayList<T> implements GenericList<T> {
 
@@ -91,8 +90,12 @@ public class GenericArrayList<T> implements GenericList<T> {
 
     @Override
     public int indexOf(T element) {
-	int index = IntStream.range(0, array.length).filter(i -> element.equals(array[i])).findFirst().orElse(-1);
-	return index;
+	for (int i = 0; i < this.size; i++) {
+	    if (Objects.equals(array[i], element)) {
+		return i;
+	    }
+	}
+	return -1;
     }
 
     @Override
@@ -148,7 +151,7 @@ public class GenericArrayList<T> implements GenericList<T> {
 
     // Helpers
     private class ListIterator implements Iterator<T> {
-	private int current = - 1;
+	private int current = -1;
 
 	@Override
 	public boolean hasNext() {

@@ -8,7 +8,6 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 
 @Test(groups = "list-tests")
@@ -82,4 +81,26 @@ public class SetTest extends Generator {
 	list.set(-1, element);
     }
 
+    @Test(dataProvider = "lists")
+    public void setNullShouldReplaceOldElementWithNull(GenericList<Integer> list) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	int index;
+	/**
+	 * If size = 1, index should be 0, but second parameter in nextInt should be
+	 * strictly greater;
+	 */
+	if (size == 1) {
+	    index = 0;
+	} else {
+	    index = ThreadLocalRandom.current().nextInt(0, size - 1);
+	}
+	
+	// Act
+	list.set(index, null);
+
+	// Assert
+	assertEquals(list.get(index), null);
+    }
 }

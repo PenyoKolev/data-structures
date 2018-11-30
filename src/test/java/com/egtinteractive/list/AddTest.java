@@ -5,10 +5,10 @@ import org.testng.annotations.Test;
 import com.egtinteractive.Generator;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 
 @Test(groups = "list-tests")
@@ -60,5 +60,18 @@ public class AddTest extends Generator {
 
 	// Assert
 	assertEquals(list.indexOf(element), 0);
+    }
+    
+    @Test(dataProvider = "lists")
+    public void addNull(GenericList<Integer> list) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+
+	// Act
+	list.add(null);
+
+	// Assert
+	assertNull(list.get(list.size() - 1));
     }
 }

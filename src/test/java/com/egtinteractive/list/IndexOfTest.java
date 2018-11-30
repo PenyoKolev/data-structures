@@ -8,7 +8,6 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 
 @Test(groups = "list-tests")
@@ -56,6 +55,31 @@ public class IndexOfTest extends Generator {
 	
 	//Assert
 	assertEquals(expected, result);
+	
+    }
+    
+    @Test(dataProvider = "lists")
+    public void indexOfShouldReturnIndexOfElementWithNullValue(GenericList<Integer> list) {
+	//Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	int index;
+	/**
+	 * If size = 1, index should be 0, but second parameter in nextInt should be
+	 * strictly greater;
+	 */
+	if (size == 1) {
+	    index = 0;
+	} else {
+	    index = ThreadLocalRandom.current().nextInt(0, size - 1);
+	}
+	list.set(index, null);	
+	
+	//Act
+	int result = list.indexOf(null);
+	
+	//Assert
+	assertEquals(result, index);
 	
     }
 }

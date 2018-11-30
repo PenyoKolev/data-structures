@@ -213,7 +213,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	if (otherObject == null) {
 	    return false;
 	}
-	if (getClass() != otherObject.getClass()) {
+	if (!(otherObject instanceof Tree)) {
 	    return false;
 	}
 	@SuppressWarnings("unchecked")
