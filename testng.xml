@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<test name="test groups">
+	<groups>
+		<run>
+			<include name="list-tests" />
+			<include name="map-tests" />
+			<include name="tree-tests" />
+		</run>
+	</groups>
+	<classes>
+		<class name="com.egtinteractive" />
+	</classes>
+</test>
