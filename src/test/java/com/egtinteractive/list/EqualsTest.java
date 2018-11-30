@@ -68,4 +68,33 @@ public class EqualsTest extends Generator {
 	// Assert
 	assertTrue(equals);
     }
+    
+    @Test(dataProvider = "lists")
+    public void afterSetRandomElementOnRandomPositionEqualsShouldReturnFalse(GenericList<Integer> list, GenericList<Integer> list1) {
+	//Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	for (Integer integer : list) {
+	    list1.add(integer);
+	}
+
+	int index;
+	/**
+	 * If size = 1, index should be 0, but second parameter in nextInt should be
+	 * strictly greater;
+	 */
+	if (size == 1) {
+	    index = 0;
+	} else {
+	    index = ThreadLocalRandom.current().nextInt(0, size - 1);
+	}
+	int element = ThreadLocalRandom.current().nextInt();
+	list.set(index, element);
+
+	// Act
+	boolean equals = list.equals(list1);
+
+	// Assert
+	assertFalse(equals);
+    }
 }
