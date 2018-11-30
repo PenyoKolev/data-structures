@@ -48,9 +48,8 @@ public class IteratorTest extends Generator {
 	    iterator.remove();
 	}
 	
-	//TODO iterator remove
 	// Assert
-//	assertEquals(tree.size(), 0);
+	assertEquals(tree.size(), 0);
     }
     
     @Test(dataProvider = "trees")

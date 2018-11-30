@@ -1,9 +1,9 @@
 package com.egtinteractive.binarytree;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
-import java.util.Queue;
 
 public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
@@ -48,6 +48,9 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     private Node<T> delete(Node<T> current, T value) {
+	if (current == null) {
+	    return current;
+	}
 	if (current.getValue() == value) {
 	    if (current.getLeft() == null && current.getRight() == null) {
 		return null;
@@ -179,44 +182,26 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     private class MyIterator implements Iterator<T> {
-	private BinaryTree<T> tree = null;
-	private Node<T> last = null;
-	private Queue<Node<T>> queue = new ArrayDeque<>();
+	private List<T> list = new ArrayList<>();
+	int index = -1;
 
 	public MyIterator(BinaryTree<T> tree) {
-	    this.tree = tree;
-	    if (tree.root != null) {
-		queue.add(tree.root);
-	    }
+	    dfs(root, list);
 	}
 
 	@Override
 	public boolean hasNext() {
-	    if (queue.size() > 0) {
-		return true;
-	    }
-	    return false;
+	    return index < list.size() - 1;
 	}
 
 	@Override
 	public T next() {
-	    while (hasNext()) {
-		Node<T> n = queue.poll();
-		if (n.getLeft() != null) {
-		    queue.add(n.getLeft());
-		}
-		if (n.getRight() != null) {
-		    queue.add(n.getRight());
-		}
-		last = n;
-		return n.getValue();
-	    }
-	    return null;
+	    return list.get(++index);
 	}
 
 	@Override
 	public void remove() {
-	    //TODO implement remove
+	    BinaryTree.this.remove(list.get(index));
 	}
     }
 
@@ -258,6 +243,15 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 
     // Helpers
 
+    private void dfs(Node<T> node, List<T> list) {
+	if (node == null) {
+	    return;
+	}
+	dfs(node.getLeft(), list);
+	list.add(node.getValue());
+	dfs(node.getRight(), list);
+    }
+
     private Node<T> getNode(T value) {
 	Node<T> node = root;
 	while (isValid(node)) {
@@ -291,5 +285,4 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	}
 	return false;
     }
-
 }
