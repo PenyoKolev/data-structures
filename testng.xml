@@ -4,65 +4,10 @@
 
 <suite name="Suite">
 	<test name="List tests">
-		<groups>
-			<run>
-				<include name="list-tests" />
-			</run>
-		</groups>
-		<classes>
-			<class name="com.egtinteractive.list.AddByIndexTest" />
-			<class name="com.egtinteractive.list.AddTest" />
-			<class name="com.egtinteractive.list.ClearTest" />
-			<class name="com.egtinteractive.list.ContainsTest" />
-			<class name="com.egtinteractive.list.EqualsTest" />
-			<class name="com.egtinteractive.list.GetTest" />
-			<class name="com.egtinteractive.list.HashCodeTest" />
-			<class name="com.egtinteractive.list.IndexOfTest" />
-			<class name="com.egtinteractive.list.RemoveTest" />
-			<class name="com.egtinteractive.list.SetTest" />
-			<class name="com.egtinteractive.list.SizeTest" />
-		</classes>
-	</test>
-	<test name="Map tests">
-		<groups>
-			<run>
-				<include name="map-tests" />
-			</run>
-		</groups>
-		<classes>
-			<class name="com.egtinteractive.map.ClearTest" />
-			<class name="com.egtinteractive.map.ContainsKeyTest" />
-			<class name="com.egtinteractive.map.ContainsValueTest" />
-			<class name="com.egtinteractive.map.EqualsTest" />
-			<class name="com.egtinteractive.map.GetTest" />
-			<class name="com.egtinteractive.map.HashCodeTest" />
-			<class name="com.egtinteractive.map.IteratorTest" />
-			<class name="com.egtinteractive.map.PutTest" />
-			<class name="com.egtinteractive.map.RemoveTest" />
-			<class name="com.egtinteractive.map.ResizeTest" />
-			<class name="com.egtinteractive.map.SizeTest" />
-		</classes>
-	</test>
-	<test name="Tree tests">
-		<groups>
-			<run>
-				<include name="tree-tests" />
-			</run>
-		</groups>
-		<classes>
-			<class name="com.egtinteractive.tree.AddTest" />
-			<class name="com.egtinteractive.tree.ClearTest" />
-			<class name="com.egtinteractive.tree.ContainsTest" />
-			<class name="com.egtinteractive.tree.EqualsTest" />
-			<class name="com.egtinteractive.tree.HashCodeTest" />
-			<class name="com.egtinteractive.tree.HigherTest" />
-			<class name="com.egtinteractive.tree.IteratorTest" />
-			<class name="com.egtinteractive.tree.LowerTest" />
-			<class name="com.egtinteractive.tree.PollFirstTest" />
-			<class name="com.egtinteractive.tree.PollLastTest" />
-			<class name="com.egtinteractive.tree.RemoveTest" />
-			<class name="com.egtinteractive.tree.SizeTest" />
-
-		</classes>
+		<packages>
+			<package name="com.egtinteractive.list" />
+			<package name="com.egtinteractive.map" />
+			<package name="com.egtinteractive.tree" />
+		</packages>
 	</test>
 </suite>
