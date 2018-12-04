@@ -27,6 +27,13 @@ public class IteratorTest extends Generator {
 	fillListWithIntegers(size, list);
 	int iteration = 0;
 
+	/*
+	 * [WARNING] author ivailozd
+	 * 
+	 * Should check if the iterator returns the right element
+	 * 
+	 */
+
 	// Act
 	for (Integer integer : list) {
 	    iteration++;
@@ -52,7 +59,7 @@ public class IteratorTest extends Generator {
 	// Assert
 	assertEquals(list.size(), 0);
     }
-    
+
     @Test(dataProvider = "lists")
     public void iteratorHasNextShouldReturnFalseIfListIsEmpty(GenericList<Integer> list) {
 	// Arrange
