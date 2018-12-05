@@ -8,6 +8,8 @@ import com.egtinteractive.binarytree.BinaryTree;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import org.testng.annotations.DataProvider;
@@ -22,23 +24,24 @@ public class IteratorTest extends Generator {
 
     @Test(dataProvider = "trees")
     public void iteratorShouldIterateOverAllElements(BinaryTree<Integer> tree) {
-	//Arrange
+	// Arrange
 	fillTreeWithIntegers(tree);
-	int size = tree.size();
-	int iteration = 0;
+	ArrayList<Integer> list = new ArrayList<>();
+	list.addAll(Arrays.asList(38, 13, 51, 10, 12, 40, 84, 25, 89, 37, 66, 95));
 
 	// Act
 	for (Integer integer : tree) {
-	    iteration++;
+	    list.remove(integer);
 	}
 
 	// Assert
-	assertEquals(iteration, size);
+	assertEquals(list.size(), 0);
+
     }
-    
+
     @Test(dataProvider = "trees")
     public void iteratorRemoveShouldRemoveElement(BinaryTree<Integer> tree) {
-	//Arrange
+	// Arrange
 	fillTreeWithIntegers(tree);
 	Iterator<Integer> iterator = tree.iterator();
 
@@ -47,14 +50,14 @@ public class IteratorTest extends Generator {
 	    iterator.next();
 	    iterator.remove();
 	}
-	
+
 	// Assert
 	assertEquals(tree.size(), 0);
     }
-    
+
     @Test(dataProvider = "trees")
     public void iteratorHasNextShouldReturnFalseIfTreeIsEmpty(BinaryTree<Integer> tree) {
-	//Arrange
+	// Arrange
 	fillTreeWithIntegers(tree);
 	tree.clear();
 	Iterator<Integer> iterator = tree.iterator();

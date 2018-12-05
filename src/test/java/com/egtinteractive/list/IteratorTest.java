@@ -8,6 +8,8 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.DataProvider;
@@ -25,22 +27,18 @@ public class IteratorTest extends Generator {
 	// Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
 	fillListWithIntegers(size, list);
-	int iteration = 0;
-
-	/*
-	 * [WARNING] author ivailozd
-	 * 
-	 * Should check if the iterator returns the right element
-	 * 
-	 */
+	List<Integer> llist = new LinkedList<>();
+	for (int i = 0; i < list.size(); i++) {
+	    llist.add(list.get(i));
+	}
 
 	// Act
 	for (Integer integer : list) {
-	    iteration++;
+	    llist.remove(integer);
 	}
 
 	// Assert
-	assertEquals(iteration, size);
+	assertEquals(llist.size(), 0);
     }
 
     @Test(dataProvider = "lists")

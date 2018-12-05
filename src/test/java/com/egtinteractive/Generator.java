@@ -1,5 +1,6 @@
 package com.egtinteractive;
 
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -26,6 +27,15 @@ public class Generator {
 	    int key = ThreadLocalRandom.current().nextInt();
 	    String value = UUID.randomUUID().toString();
 	    map.put(key, value);
+	}
+    }
+    
+    public void fillMapWithStringAndKeepKeySet(int size, Map<Integer, String> map, Set<Integer> keySet) {
+	for (int i = 0; i < size; i++) {
+	    int key = ThreadLocalRandom.current().nextInt();
+	    String value = UUID.randomUUID().toString();
+	    map.put(key, value);
+	    keySet.add(key);
 	}
     }
 

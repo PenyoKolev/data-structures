@@ -9,6 +9,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.DataProvider;
@@ -54,11 +55,12 @@ public class AddTest extends Generator {
     public void addShouldIncreaseSize(BinaryTree<Integer> tree) {
 	// Arrange
 	fillTreeWithIntegers(tree);
-	int random = ThreadLocalRandom.current().nextInt(0, 100);
 	int size = tree.size();
-
+	int[] array = { 9, 11, 15, 27, 39, 43, 50, 69, 86, 92, 100 };
+	Random random = new Random();
+	int element = array[random.nextInt(array.length)];
 	// Act
-	tree.add(random);
+	tree.add(element);
 
 	// Assert
 	assertNotEquals(size, tree.size());

@@ -6,10 +6,6 @@ import com.egtinteractive.Generator;
 import com.egtinteractive.binarytree.BinaryTree;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-
-import java.util.concurrent.ThreadLocalRandom;
-
 import org.testng.annotations.DataProvider;
 
 /**		       	Tree example:	
@@ -37,34 +33,17 @@ public class HashCodeTest extends Generator {
 
     @Test(dataProvider = "trees")
     public void hashCodeShouldReturnSameCodeForEqualTrees(BinaryTree<Integer> tree, BinaryTree<Integer> tree1) {
-	//Arrange
+	// Arrange
 	fillTreeWithIntegers(tree);
 	for (Integer integer : tree) {
 	    tree1.add(integer);
 	}
-	
+
 	// Act
 	int hash = tree.hashCode();
 	int hash1 = tree1.hashCode();
 
 	// Assert
 	assertEquals(hash, hash1);
-    }
-    
-    @Test(dataProvider = "trees")
-    public void hashCodeShouldDifferentCodeForDifferentTrees(BinaryTree<Integer> tree, BinaryTree<Integer> tree1) {
-	//Arrange
-	fillTreeWithIntegers(tree);
-	for (Integer integer : tree) {
-	    tree1.add(integer);
-	}
-	tree.add(ThreadLocalRandom.current().nextInt(100, 200));
-
-	// Act
-	int hash = tree.hashCode();
-	int hash1 = tree1.hashCode();
-
-	// Assert
-	assertNotEquals(hash, hash1);
     }
 }
