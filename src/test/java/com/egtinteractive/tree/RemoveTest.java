@@ -22,8 +22,8 @@ import org.testng.annotations.DataProvider;
  *			  10  25  40  84
  *			    \   \    /  \
  *			    12  37  66  89
- *					  \
- *					  95
+ *			       /	  \
+ *			      30	  95
  */
 
 @Test(groups = "tree-tests")
@@ -48,7 +48,22 @@ public class RemoveTest extends Generator {
     }
     
     @Test(dataProvider = "trees")
-    public void removeNodeWithOneChildShouldDeleteNode(BinaryTree<Integer> tree) {
+    public void removeNodeWithOneRightChildShouldDeleteNode(BinaryTree<Integer> tree) {
+	//Arrange
+	fillTreeWithIntegers(tree);
+	tree.add(30);
+	int node = 37;
+	
+	//Act
+	tree.remove(node);
+	int lower = tree.lower(38);
+	
+	//Assert
+	assertEquals(lower, 30);
+    }
+    
+    @Test(dataProvider = "trees")
+    public void removeNodeWithOneLeftChildShouldDeleteNode(BinaryTree<Integer> tree) {
 	//Arrange
 	fillTreeWithIntegers(tree);
 	int node = 10;

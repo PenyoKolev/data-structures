@@ -27,7 +27,7 @@ import org.testng.annotations.DataProvider;
 
 @Test(groups = "tree-tests")
 public class HigherTest extends Generator {
-    
+
     @DataProvider(name = "trees")
     public Object[][] createData() {
 	return new Object[][] { { new BinaryTree<>() } };
@@ -45,7 +45,7 @@ public class HigherTest extends Generator {
 	// Assert
 	assertEquals(40, lower);
     }
-    
+
     @Test(dataProvider = "trees")
     public void higherShouldReturnNullIfNoSuchElement(BinaryTree<Integer> tree) {
 	// Arrange
@@ -54,5 +54,25 @@ public class HigherTest extends Generator {
 
 	// Assert
 	assertNull(tree.higher(node));
+    }
+
+    @Test(dataProvider = "trees")
+    public void higherShouldReturnRootIfElementIsHigherInLeftSubTree(BinaryTree<Integer> tree) {
+	// Arrange
+	fillTreeWithIntegers(tree);
+	int higher = tree.higher(37);
+
+	// Assert
+	assertEquals(higher, 38);
+    }
+
+    @Test(dataProvider = "trees")
+    public void higherShouldReturnParentIfGreater(BinaryTree<Integer> tree) {
+	// Arrange
+	fillTreeWithIntegers(tree);
+	int higher = tree.higher(40);
+
+	// Assert
+	assertEquals(higher, 51);
     }
 }

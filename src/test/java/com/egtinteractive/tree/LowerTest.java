@@ -55,4 +55,31 @@ public class LowerTest extends Generator {
 	// Assert
 	assertNull(tree.lower(node));
     }
+    
+    @Test(dataProvider = "trees")
+    public void lowerShouldReturnRootIfLeftLeafAndParentIsRootRightLeaf(BinaryTree<Integer> tree) {
+	// Arrange
+	fillTreeWithIntegers(tree);
+	int node = 40;
+	
+	// Act
+	int lower = tree.lower(node);
+
+	// Assert
+	assertEquals(lower, 38);
+    }
+    
+    @Test(dataProvider = "trees")
+    public void lowerShouldReturnRootIfSmallerInRightSubTree(BinaryTree<Integer> tree) {
+	// Arrange
+	fillTreeWithIntegers(tree);
+	tree.add(39);
+	int node = 39;
+	
+	// Act
+	int lower = tree.lower(node);
+
+	// Assert
+	assertEquals(lower, 38);
+    }
 }

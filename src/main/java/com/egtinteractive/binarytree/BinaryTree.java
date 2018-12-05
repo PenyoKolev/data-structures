@@ -131,6 +131,9 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	    while (e.compareTo(node.getValue()) < 0) {
 		node = getParent(node.getValue(), root, root);
 		if (node == root) {
+		    if (e.compareTo(node.getValue()) > 0) {
+			return node.getValue();
+		    }
 		    return null;
 		}
 	    }
