@@ -31,6 +31,12 @@ public class ContainsTest extends Generator {
 	assertTrue(list.contains(element));
     }
 
+    /*
+     * [WARNING] author ivailozd
+     * 
+     * Can fail in some cases!
+     * 
+     */
     @Test(dataProvider = "lists")
     public void containsShouldReturnFalseIfElementNotFound(GenericList<Integer> list) {
 	// Arrange
@@ -43,14 +49,14 @@ public class ContainsTest extends Generator {
 	// Assert
 	assertFalse(list.contains(element));
     }
-    
+
     @Test(dataProvider = "lists")
     public void containsShouldReturnTrueIfNullElementFound(GenericList<Integer> list) {
 	// Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
 	fillListWithIntegers(size, list);
 	list.add(null);
-	
+
 	// Assert
 	assertTrue(list.contains(null));
     }
