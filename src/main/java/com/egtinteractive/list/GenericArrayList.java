@@ -46,9 +46,6 @@ public class GenericArrayList<T> implements GenericList<T> {
 	    resize();
 	}
 	for (int i = size - 1; i >= index; i--) {
-	    if (i != 0) {
-
-	    }
 	    array[i + 1] = array[i];
 	}
 	array[index] = element;

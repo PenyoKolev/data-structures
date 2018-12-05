@@ -75,12 +75,20 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public boolean remove(T element) { // Check (integer could be value or index)
+    public boolean remove(T element) { 
 	int index = indexOf(element);
 	if (head == null || index == -1) {
 	    return false;
 	}
-	return remove(index);
+	if (index == 0) {
+	    head = head.next;
+	} else {
+	    Node<T> previousNode = nodeAt(index - 1);
+	    Node<T> nodeToRemove = previousNode.next;
+	    previousNode.next = nodeToRemove.next;
+	}
+	size--;
+	return true;
     }
 
     @Override

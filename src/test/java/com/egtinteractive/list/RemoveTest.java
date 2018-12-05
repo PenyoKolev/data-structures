@@ -39,15 +39,16 @@ public class RemoveTest extends Generator {
     public void removeFromFirstPosition(GenericList<Integer> list) {
 	// Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
-	fillListWithIntegers(size, list);	
-	int element = ThreadLocalRandom.current().nextInt();
-	list.set(0, element);
+	for (int i = 0; i < size; i++) {
+	    list.add(i);
+	}
+	int element = list.get(0);
 	
 	// Act
 	list.remove(0);
 
 	// Assert
-	assertFalse(list.contains(element));
+	assertFalse(list.get(0).equals(element));
 	
     }
     

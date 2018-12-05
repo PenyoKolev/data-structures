@@ -12,7 +12,7 @@ public class Generator {
 
     public void fillListWithIntegers(int size, GenericList<Integer> list) {
 	for (int i = 0; i < size; i++) {
-	    list.add(ThreadLocalRandom.current().nextInt(1, 100));
+	    list.add(ThreadLocalRandom.current().nextInt());
 	}
     }
 

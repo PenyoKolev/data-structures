@@ -35,8 +35,10 @@ public class ContainsTest extends Generator {
     public void containsShouldReturnFalseIfElementNotFound(GenericList<Integer> list) {
 	// Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
-	fillListWithIntegers(size, list);
-	int element = ThreadLocalRandom.current().nextInt();
+	for (int i = 0; i < size; i++) {
+	    list.add(i);
+	}
+	int element = size;
 
 	// Assert
 	assertFalse(list.contains(element));
