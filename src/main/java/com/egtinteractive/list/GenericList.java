@@ -10,12 +10,6 @@ public interface GenericList<T> extends Iterable<T> {
 
     void set(int index, T element); // overwrites the element at the specified position;
 
-    /*
-     * [WARNING] author ivailozd
-     * 
-     * This method is poorly tested.
-     * 
-     */
     boolean remove(T element); // removes the first occurrence of the specified element;
 
     boolean remove(int index); // removes the element at the specified position;

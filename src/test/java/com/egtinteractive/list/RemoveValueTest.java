@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 

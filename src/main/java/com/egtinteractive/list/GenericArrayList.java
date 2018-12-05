@@ -46,18 +46,6 @@ public class GenericArrayList<T> implements GenericList<T> {
 	    resize();
 	}
 	for (int i = size - 1; i >= index; i--) {
-<<<<<<< HEAD
-=======
-	    /*
-	     * [WARNING] author ivailozd
-	     * 
-	     * Empty block shouldn't be here
-	     * 
-	     */
-	    if (i != 0) {
-
-	    }
->>>>>>> 1da996484e74d5d63d64c8c69c9eaf4c15badafe
 	    array[i + 1] = array[i];
 	}
 	array[index] = element;

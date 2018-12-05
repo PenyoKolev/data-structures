@@ -9,12 +9,6 @@ import com.egtinteractive.map.Map;
 
 public class Generator {
 
-    /*
-     * [WARNING] author ivailozd
-     * 
-     * What's the problem here?
-     * 
-     */
     public void fillListWithIntegers(int size, GenericList<Integer> list) {
 	for (int i = 0; i < size; i++) {
 	    list.add(ThreadLocalRandom.current().nextInt());

@@ -31,12 +31,6 @@ public class ContainsTest extends Generator {
 	assertTrue(list.contains(element));
     }
 
-    /*
-     * [WARNING] author ivailozd
-     * 
-     * Can fail in some cases!
-     * 
-     */
     @Test(dataProvider = "lists")
     public void containsShouldReturnFalseIfElementNotFound(GenericList<Integer> list) {
 	// Arrange

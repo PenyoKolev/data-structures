@@ -74,12 +74,6 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	current.data = element;
     }
 
-    /*
-     * [WARNING] author ivailozd
-     * 
-     * Should avoid multiple iterations.
-     * 
-     */
     @Override
     public boolean remove(T element) { 
 	int index = indexOf(element);
