@@ -2,6 +2,7 @@ package com.egtinteractive.map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNull;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -68,5 +69,16 @@ public class IteratorTest extends Generator {
 
 	// Assert
 	assertFalse(result);
+    }
+
+    @Test(dataProvider = "maps")
+    public void iteratorNextShouldReturnNullIfMapIsEmpty(Map<Integer, String> map) {
+	// Arrange
+	map.put(1, "a");
+	Iterator<Node<Integer, String>> iterator = map.iterator();
+	iterator.next();
+
+	// Assert
+	assertNull(iterator.next());
     }
 }

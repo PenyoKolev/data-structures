@@ -68,4 +68,10 @@ public class GetTest extends Generator {
 	// Assert
 	assertNull(expected);
     }
+    
+    @Test(dataProvider = "maps")
+    public void getShoulReturnNullIfNoSuchEntry(Map<Integer, String> map) {
+	// Assert
+	assertNull(map.get(0));
+    }
 }

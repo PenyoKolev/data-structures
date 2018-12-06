@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import com.egtinteractive.Generator;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -75,5 +76,11 @@ public class RemoveTest extends Generator {
 	
 	// Assert
 	assertEquals(result, value);
+    }
+    
+    @Test(dataProvider = "maps")
+    public void removeShouldReturnNullIfNodeIsNull(Map<Integer, String> map) {
+	// Assert
+	assertNull(map.remove(0));
     }
 }

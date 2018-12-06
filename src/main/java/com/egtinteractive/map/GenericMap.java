@@ -59,8 +59,8 @@ public class GenericMap<K, V> implements Map<K, V> {
 		}
 		temp = temp.getNext();
 	    }
+	    return null;
 	}
-	return null;
     }
 
     @Override
@@ -114,7 +114,6 @@ public class GenericMap<K, V> implements Map<K, V> {
 		previous = node;
 		node = node.getNext();
 	    }
-	    return null;
 	}
 	return null;
     }
@@ -242,7 +241,6 @@ public class GenericMap<K, V> implements Map<K, V> {
 		    index++;
 		}
 		return current;
-
 	    }
 	    return null;
 	}
@@ -271,6 +269,6 @@ public class GenericMap<K, V> implements Map<K, V> {
     }
 
     private int hash(K key, int size) {
-	return key != null? Math.abs(key.hashCode()) % entries.length : 0;
+	return key != null ? Math.abs(key.hashCode()) % entries.length : 0;
     }
 }
