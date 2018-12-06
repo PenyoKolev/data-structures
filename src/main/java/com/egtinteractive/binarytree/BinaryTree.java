@@ -14,7 +14,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
 	GET_LEFT, GET_RIGHT;
     }
 
-    private static class Node<T> {
+    public static class Node<T> {
 	private T value;
 	private Node<T> left;
 	private Node<T> right;
@@ -307,9 +307,6 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     private Node<T> getParent(T value, Node<T> node, Node<T> parent) {
-	if (!isValid(node)) {
-	    return null;
-	}
 	if (value.compareTo(node.getValue()) < 0) {
 	    return getParent(value, node.getLeft(), node);
 	} else if (value.compareTo(node.getValue()) > 0) {
