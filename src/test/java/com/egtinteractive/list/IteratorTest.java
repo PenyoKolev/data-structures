@@ -10,6 +10,7 @@ import static org.testng.Assert.assertFalse;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.DataProvider;
@@ -71,5 +72,40 @@ public class IteratorTest extends Generator {
 
 	// Assert
 	assertFalse(result);
+    }
+
+    @Test(dataProvider = "lists", expectedExceptions = NoSuchElementException.class)
+    public void iteratorNextShouldThrowExceprtionIfNoNextElement(GenericList<Integer> list) {
+	// Arrange
+	Iterator<Integer> iterator = list.iterator();
+
+	// Act
+	iterator.next();
+    }
+
+    @Test(expectedExceptions = IllegalStateException.class)
+    public void iteratorNextShouldThrowExceprtionIfRemoveInvokedWithoutNext() {
+	// Arrange
+	GenericList<Integer> list = new GenericLinkedList<>();
+	Iterator<Integer> iterator = list.iterator();
+
+	// Act
+	iterator.remove();
+    }
+
+    @Test(dataProvider = "lists")
+    public void iteratorRemoveShouldRemoveElementIfHeadOrOther(GenericList<Integer> list) {
+	// Arrange
+	list.add(0);
+	list.add(1);
+	Iterator<Integer> iterator = list.iterator();
+
+	// Act
+	iterator.next();
+	iterator.next();
+	iterator.remove();
+
+	// Assert
+	assertEquals(list.size(), 1);
     }
 }

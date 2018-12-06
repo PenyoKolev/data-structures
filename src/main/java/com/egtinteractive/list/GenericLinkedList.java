@@ -1,6 +1,7 @@
 package com.egtinteractive.list;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class GenericLinkedList<T> implements GenericList<T> {
@@ -75,7 +76,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
     }
 
     @Override
-    public boolean remove(T element) { 
+    public boolean remove(T element) {
 	int index = indexOf(element);
 	if (head == null || index == -1) {
 	    return false;
@@ -178,29 +179,41 @@ public class GenericLinkedList<T> implements GenericList<T> {
     // Helpers
 
     private class MyIterator implements Iterator<T> {
-	Node<T> current = head;
+	Node<T> current = null;
 	Node<T> previous = null;
-	boolean canRemove = false;
 
 	@Override
 	public boolean hasNext() {
-	    return current != null;
+	    if (current == null) {
+		return head != null;
+	    } else
+		return current.next != null;
 	}
 
 	@Override
 	public T next() {
+	    if (!hasNext()) {
+		throw new NoSuchElementException("No such element");
+	    }
 	    previous = current;
-	    current = current.next;
-	    return previous.data;
+
+	    if (current == null) {
+		current = head;
+	    } else {
+		current = current.next;
+	    }
+	    return current.data;
 	}
 
 	@Override
 	public void remove() {
-	    if (canRemove) {
-		previous.next = current.next;
-		canRemove = false;
+	    if (previous == current)
+		throw new IllegalStateException("Try to invoke next() and then remove()");
+	    if (current == head) {
+		GenericLinkedList.this.remove(head.data);
+	    } else {
+		GenericLinkedList.this.remove(previous.data);
 	    }
-	    size--;
 	}
     }
 

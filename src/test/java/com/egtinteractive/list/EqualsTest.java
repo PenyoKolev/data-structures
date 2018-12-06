@@ -7,6 +7,7 @@ import com.egtinteractive.Generator;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.testng.annotations.DataProvider;
@@ -99,5 +100,34 @@ public class EqualsTest extends Generator {
 
 	// Assert
 	assertFalse(equals1);
+    }
+    
+    @Test(dataProvider = "lists")
+    public void equalsShouldReturnTrueIfSameElement(GenericList<Integer> list, GenericList<Integer> list1) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	list1 = list;
+	
+	// Act
+	boolean equals = list.equals(list1);
+
+	// Assert
+	assertTrue(equals);
+    }
+    
+    @Test(dataProvider = "lists")
+    public void equalsShouldReturnFalseIfOtherInstance(GenericList<Integer> list, GenericList<Integer> list1) {
+	// Arrange
+	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	fillListWithIntegers(size, list);
+	Stack<Integer> stack = new Stack<>();
+	
+	// Act
+	@SuppressWarnings("unlikely-arg-type")
+	boolean equals = list.equals(stack);
+
+	// Assert
+	assertFalse(equals);
     }
 }

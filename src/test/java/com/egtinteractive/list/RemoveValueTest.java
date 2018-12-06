@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import com.egtinteractive.Generator;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -75,6 +76,13 @@ public class RemoveValueTest extends Generator {
 
 	// Assert
 	assertNotEquals(list.size(), size);
+
+    }
+    
+    @Test(dataProvider = "lists")
+    public void removeElementShouldReturnFalseIfNoSuchElement(GenericList<String> list) {
+	// Assert
+	assertFalse(list.remove("test"));
 
     }
 }

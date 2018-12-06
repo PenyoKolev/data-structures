@@ -63,14 +63,14 @@ public class AddByIndexTest extends Generator {
 	// Assert
 	assertEquals(oldElement, expectedOldElement);
     }
-    
+
     @Test(dataProvider = "lists")
     public void addByIndexEqualSizeShouldAddElementOnLastPosition(GenericList<Integer> list) {
 	// Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
 	fillListWithIntegers(size, list);
 	int element = ThreadLocalRandom.current().nextInt();
-	
+
 	// Act
 	list.add(size, element);
 	int expected = list.get(size);
@@ -78,14 +78,14 @@ public class AddByIndexTest extends Generator {
 	// Assert
 	assertEquals(element, expected);
     }
-    
+
     @Test(dataProvider = "lists")
     public void addByIndexEqualZeroShouldAddElementOnFirstPosition(GenericList<Integer> list) {
 	// Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
 	fillListWithIntegers(size, list);
 	int element = ThreadLocalRandom.current().nextInt();
-	
+
 	// Act
 	list.add(0, element);
 	int expected = list.get(0);
@@ -93,17 +93,28 @@ public class AddByIndexTest extends Generator {
 	// Assert
 	assertEquals(element, expected);
     }
-    
+
     @Test(dataProvider = "lists")
     public void addByIndexNull(GenericList<Integer> list) {
 	// Arrange
 	int size = ThreadLocalRandom.current().nextInt(1, 100);
 	fillListWithIntegers(size, list);
-	
+
 	// Act
 	list.add(0, null);
 
 	// Assert
 	assertNull(list.get(0));
+    }
+    
+    @Test(dataProvider = "lists")
+    public void addByIndexShouldResizeIfSizeEqualArrayLength(GenericList<Integer> list) {
+	// Arrange
+	for (int i = 0; i < 10; i++) {
+	    list.add(i);
+	}
+
+	// Act
+	list.add(0, 10);
     }
 }
