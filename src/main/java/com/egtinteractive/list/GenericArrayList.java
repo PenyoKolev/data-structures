@@ -70,6 +70,12 @@ public class GenericArrayList<T> implements GenericList<T> {
 	return true;
     }
 
+    /*
+     * [WARNING] author ivailozd
+     * 
+     * Memory leak
+     * 
+     */
     @Override
     public boolean remove(int index) {
 	if (isNotValid(index)) {

@@ -75,6 +75,12 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	current.data = element;
     }
 
+    /*
+     * [WARNING] author ivailozd
+     * 
+     * Double iteration
+     * 
+     */
     @Override
     public boolean remove(T element) {
 	int index = indexOf(element);
@@ -92,6 +98,12 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	return true;
     }
 
+    /*
+     * [WARNING] author ivailozd
+     * 
+     * DRY
+     * 
+     */
     @Override
     public boolean remove(int index) {
 	indexValidation(index);
