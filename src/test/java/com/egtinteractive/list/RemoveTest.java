@@ -35,10 +35,10 @@ public class RemoveTest extends Generator {
 
     }
 
-    @Test(dataProvider = "lists")
+    @Test(invocationCount = 100, dataProvider = "lists")
     public void removeFromFirstPosition(GenericList<Integer> list) {
 	// Arrange
-	int size = ThreadLocalRandom.current().nextInt(1, 100);
+	int size = ThreadLocalRandom.current().nextInt(2, 100);
 	for (int i = 0; i < size; i++) {
 	    list.add(i);
 	}

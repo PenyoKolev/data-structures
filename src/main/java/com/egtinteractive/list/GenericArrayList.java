@@ -70,20 +70,13 @@ public class GenericArrayList<T> implements GenericList<T> {
 	return true;
     }
 
-    /*
-     * [WARNING] author ivailozd
-     * 
-     * Memory leak
-     * 
-     */
     @Override
-    public boolean remove(int index) {   // Check array copy for memory leak 
+    public boolean remove(int index) { // Check array copy for memory leak
 	if (isNotValid(index)) {
 	    throw new IndexOutOfBoundsException(message(index));
 	}
 	System.arraycopy(array, index + 1, array, index, size - index - 1);
 	array[--size] = null;
-	//size--;
 	return true;
     }
 
