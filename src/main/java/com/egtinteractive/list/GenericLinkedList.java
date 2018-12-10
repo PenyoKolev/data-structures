@@ -75,44 +75,29 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	current.data = element;
     }
 
-    /*
-     * [WARNING] author ivailozd
-     * 
-     * Double iteration
-     * 
-     */
     @Override
     public boolean remove(T element) {
-	int index = indexOf(element);
+	Pair pair = indexAndPrevious(element);
+	int index = pair.getIndex();
 	if (head == null || index == -1) {
 	    return false;
 	}
 	if (index == 0) {
 	    head = head.next;
 	} else {
-	    Node<T> previousNode = nodeAt(index - 1);
-	    Node<T> nodeToRemove = previousNode.next;
-	    previousNode.next = nodeToRemove.next;
+	    removeNode(pair.getPrevious());
 	}
 	size--;
 	return true;
     }
 
-    /*
-     * [WARNING] author ivailozd
-     * 
-     * DRY
-     * 
-     */
     @Override
     public boolean remove(int index) {
 	indexValidation(index);
 	if (index == 0) {
 	    head = head.next;
 	} else {
-	    Node<T> previousNode = nodeAt(index - 1);
-	    Node<T> nodeToRemove = previousNode.next;
-	    previousNode.next = nodeToRemove.next;
+	    removeNode(nodeAt(index - 1));
 	}
 	size--;
 	return true;
@@ -125,16 +110,49 @@ public class GenericLinkedList<T> implements GenericList<T> {
 
     @Override
     public int indexOf(T element) {
-	if (size != 0) {
-	    Node<T> current = head;
-	    for (int index = 0; index < size; index++) {
-		if (Objects.equals(current.data, element)) {
-		    return index;
-		}
-		current = current.next;
-	    }
+	return indexAndPrevious(element).getIndex();
+    }
+
+    private class Pair {
+	private int index;
+	private Node<T> previous;
+
+	public Pair(int index, Node<T> previous) {
+	    this.setIndex(index);
+	    this.setPrevious(previous);
 	}
-	return -1;
+
+	public int getIndex() {
+	    return index;
+	}
+
+	public void setIndex(int index) {
+	    this.index = index;
+	}
+
+	public Node<T> getPrevious() {
+	    return previous;
+	}
+
+	public void setPrevious(Node<T> previous) {
+	    this.previous = previous;
+	}
+    }
+
+    public Pair indexAndPrevious(T element) {
+	Node<T> previous = null;
+	Node<T> current = head;
+	Pair pair = new Pair(-1, previous);
+	for (int index = 0; index < size; index++) {
+	    if (Objects.equals(current.data, element)) {
+		pair.index = index;
+		pair.previous = previous;
+		return pair;
+	    }
+	    previous = current;
+	    current = current.next;
+	}
+	return pair;
     }
 
     @Override
@@ -227,6 +245,11 @@ public class GenericLinkedList<T> implements GenericList<T> {
 		GenericLinkedList.this.remove(previous.data);
 	    }
 	}
+    }
+
+    public void removeNode(Node<T> previous) {
+	Node<T> nodeToRemove = previous.next;
+	previous.next = nodeToRemove.next;
     }
 
     private Node<T> nodeAt(int index) {

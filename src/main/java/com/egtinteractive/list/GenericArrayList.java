@@ -77,7 +77,7 @@ public class GenericArrayList<T> implements GenericList<T> {
      * 
      */
     @Override
-    public boolean remove(int index) {
+    public boolean remove(int index) {   // Check array copy for memory leak 
 	if (isNotValid(index)) {
 	    throw new IndexOutOfBoundsException(message(index));
 	}
