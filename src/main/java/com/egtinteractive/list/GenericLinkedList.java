@@ -139,6 +139,12 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	}
     }
 
+    /*
+     * [WARNING] author ivailozd
+     * 
+     * Is it necessary to be public non static class?
+     * 
+     */
     public Pair indexAndPrevious(T element) {
 	Node<T> previous = null;
 	Node<T> current = head;

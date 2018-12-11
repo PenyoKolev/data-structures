@@ -59,6 +59,12 @@ public class GenericArrayList<T> implements GenericList<T> {
 	array[index] = element;
     }
 
+    /*
+     * [WARNING] author ivailozd
+     * 
+     * Memory leak
+     * 
+     */
     @Override
     public boolean remove(T element) {
 	int index = indexOf(element);
@@ -70,6 +76,12 @@ public class GenericArrayList<T> implements GenericList<T> {
 	return true;
     }
 
+    /*
+     * [WARNING] author ivailozd
+     * 
+     * DRY
+     * 
+     */
     @Override
     public boolean remove(int index) { // Check array copy for memory leak
 	if (isNotValid(index)) {
