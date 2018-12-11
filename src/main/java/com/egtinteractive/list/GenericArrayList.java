@@ -65,16 +65,18 @@ public class GenericArrayList<T> implements GenericList<T> {
 	if (index == -1) {
 	    return false;
 	}
-	System.arraycopy(array, index + 1, array, index, size - index - 1);
-	size--;
-	return true;
+	return removeByIndex(index);
     }
 
     @Override
-    public boolean remove(int index) { // Check array copy for memory leak
+    public boolean remove(int index) {
 	if (isNotValid(index)) {
 	    throw new IndexOutOfBoundsException(message(index));
 	}
+	return removeByIndex(index);
+    }
+
+    private boolean removeByIndex(int index) {
 	System.arraycopy(array, index + 1, array, index, size - index - 1);
 	array[--size] = null;
 	return true;

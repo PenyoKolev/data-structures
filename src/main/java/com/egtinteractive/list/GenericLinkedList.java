@@ -77,7 +77,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
 
     @Override
     public boolean remove(T element) {
-	Pair pair = indexAndPrevious(element);
+	Pair<T> pair = indexAndPrevious(element);
 	int index = pair.getIndex();
 	if (head == null || index == -1) {
 	    return false;
@@ -113,7 +113,7 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	return indexAndPrevious(element).getIndex();
     }
 
-    private class Pair {
+    private static class Pair<T> {
 	private int index;
 	private Node<T> previous;
 
@@ -139,10 +139,10 @@ public class GenericLinkedList<T> implements GenericList<T> {
 	}
     }
 
-    public Pair indexAndPrevious(T element) {
+    private Pair<T> indexAndPrevious(T element) {
 	Node<T> previous = null;
 	Node<T> current = head;
-	Pair pair = new Pair(-1, previous);
+	Pair<T> pair = new Pair<T>(-1, previous);
 	for (int index = 0; index < size; index++) {
 	    if (Objects.equals(current.data, element)) {
 		pair.index = index;
